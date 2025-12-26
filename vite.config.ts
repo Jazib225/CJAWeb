@@ -11,9 +11,18 @@ export default defineConfig({
     tailwindcss(),
   ],
   resolve: {
-    alias: {
-      // Alias @ to the src directory
-      '@': path.resolve(__dirname, './src'),
-    },
+-    alias: {
+-      // Alias @ to the src directory
+-      '@': path.resolve(__dirname, './src'),
+-    },
++    // Use an array form so we can add a regex-based mapping for figma:asset/...
++    alias: [
++      { find: '@', replacement: path.resolve(__dirname, './src') },
++      {
++        // Resolve imports like "figma:asset/<name>.png" -> "<project root>/src/assets/<name>.png"
++        find: /^figma:asset\/(.*)$/,
++        replacement: path.resolve(__dirname, 'src', 'assets') + '/$1',
++      },
++    ],
   },
 })
