@@ -8,8 +8,100 @@ const chrisHeadshot = new URL('../assets/c9e418b60465e4f52ec157c8838c0cd7a3c3b23
 const winningPhoto = new URL('../assets/bfa4c34b5e3c41f0b5b095fab7bc8f517baad849.png', import.meta.url).href
 
 export default function App() {
+  const [openPaper, setOpenPaper] = React.useState<null | 'stablecoins' | 'dogecoin'>(null)
+
+  const isOpen = openPaper !== null
+  const active = React.useMemo(() => {
+    if (openPaper === 'stablecoins') {
+      return {
+        title: 'Stablecoins Explained: Why Crypto Needs a Dollar Twin',
+        href: '/pdfs/stablecoins-explained.pdf',
+      }
+    }
+    if (openPaper === 'dogecoin') {
+      return {
+        title: 'Dogecoin (DOGE): Shorting an Inflationary Meme Asset in Structural Decline',
+        href: '/pdfs/dogecoin-shorting-thesis.pdf',
+      }
+    }
+    return null
+  }, [openPaper])
+
   return (
     <div className="min-h-screen bg-white text-black">
+      {/* PDF Viewer Overlay */}
+      <div
+        className={[
+          'fixed inset-0 z-50',
+          isOpen ? 'pointer-events-auto' : 'pointer-events-none',
+        ].join(' ')}
+        aria-hidden={!isOpen}
+      >
+        {/* Backdrop */}
+        <button
+          type="button"
+          onClick={() => setOpenPaper(null)}
+          className={[
+            'absolute inset-0 bg-black/40 transition-opacity duration-300',
+            isOpen ? 'opacity-100' : 'opacity-0',
+          ].join(' ')}
+          aria-label="Close PDF viewer"
+        />
+
+        {/* Modal */}
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={active?.title ?? 'PDF viewer'}
+          className={[
+            'absolute left-1/2 top-1/2 w-[min(1000px,92vw)]',
+            'h-[min(720px,84vh)] -translate-x-1/2 -translate-y-1/2',
+            'bg-white border border-gray-200 shadow-2xl',
+            'transition-all duration-300',
+            isOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95',
+          ].join(' ')}
+        >
+          <div className="flex items-center justify-between gap-4 px-5 py-4 border-b border-gray-200">
+            <div className="min-w-0">
+              <p className="text-[0.75rem] tracking-wider uppercase text-gray-500 font-medium" style={{ letterSpacing: '0.1em' }}>
+                Research Note
+              </p>
+              <h3 className="font-serif text-[1.125rem] leading-tight tracking-tight text-gray-900 truncate">
+                {active?.title ?? ''}
+              </h3>
+            </div>
+            <div className="flex items-center gap-3 shrink-0">
+              {active?.href ? (
+                <a
+                  href={active.href}
+                  download
+                  className="text-[0.875rem] text-gray-700 hover:text-black transition-colors border-b border-transparent hover:border-black"
+                >
+                  Download
+                </a>
+              ) : null}
+              <button
+                type="button"
+                onClick={() => setOpenPaper(null)}
+                className="text-[0.875rem] text-gray-700 hover:text-black transition-colors border border-gray-300 hover:border-black px-3 py-1.5"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+
+          <div className="w-full h-[calc(100%-65px)]">
+            {active?.href ? (
+              <iframe
+                title={active.title}
+                src={active.href}
+                className="w-full h-full"
+              />
+            ) : null}
+          </div>
+        </div>
+      </div>
+
       {/* Header */}
       <header className="border-b border-gray-200">
         <div className="max-w-[1400px] mx-auto px-12 py-5">
@@ -97,12 +189,7 @@ export default function App() {
             
             <div className="grid grid-cols-2 gap-16">
               {/* Research Card 1 */}
-              <a 
-                href="/pdfs/stablecoins-explained.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group block"
-              >
+              <div className="group block">
                 <div className="mb-8">
                   <p className="text-[0.75rem] tracking-wider uppercase text-gray-400 mb-6 font-medium" style={{ letterSpacing: '0.1em' }}>
                     Research Note
@@ -115,22 +202,18 @@ export default function App() {
                   </p>
                 </div>
                 <div className="border-t border-gray-200 pt-6">
-                  <p className="text-[0.8125rem] text-gray-500 mb-4 font-light">
-                    Christopher Herzog · Jazib Qureshi · Adi Chaudhary
-                  </p>
-                  <span className="text-[0.875rem] text-black group-hover:translate-x-1 transition-transform inline-block font-medium">
+                  <button
+                    type="button"
+                    onClick={() => setOpenPaper('stablecoins')}
+                    className="text-[0.875rem] text-black group-hover:translate-x-1 transition-transform inline-block font-medium"
+                  >
                     Read →
-                  </span>
+                  </button>
                 </div>
-              </a>
+              </div>
 
               {/* Research Card 2 */}
-              <a 
-                href="/pdfs/dogecoin-shorting-thesis.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group block"
-              >
+              <div className="group block">
                 <div className="mb-8">
                   <p className="text-[0.75rem] tracking-wider uppercase text-gray-400 mb-6 font-medium" style={{ letterSpacing: '0.1em' }}>
                     Research Note
@@ -143,17 +226,18 @@ export default function App() {
                   </p>
                 </div>
                 <div className="border-t border-gray-200 pt-6">
-                  <p className="text-[0.8125rem] text-gray-500 mb-2 font-light">
-                    Adi Chaudhary · Christopher Herzog · Jazib Qureshi
-                  </p>
                   <p className="text-[0.75rem] text-gray-400 mb-4 font-light">
                     Track: Short Position &gt; $1B
                   </p>
-                  <span className="text-[0.875rem] text-black group-hover:translate-x-1 transition-transform inline-block font-medium">
+                  <button
+                    type="button"
+                    onClick={() => setOpenPaper('dogecoin')}
+                    className="text-[0.875rem] text-black group-hover:translate-x-1 transition-transform inline-block font-medium"
+                  >
                     Read →
-                  </span>
+                  </button>
                 </div>
-              </a>
+              </div>
             </div>
           </div>
         </div>
