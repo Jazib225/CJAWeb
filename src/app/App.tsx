@@ -98,7 +98,7 @@ export default function App() {
             <div className="grid grid-cols-2 gap-16">
               {/* Research Card 1 */}
               <a 
-                href="https://docs.google.com/document/d/1_oaRydqzVzSngB2YSjJg5HGKsokNg7XWvI7t44xz9Qo/edit?usp=sharing"
+                href="/pdfs/stablecoins-explained.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group block"
@@ -126,7 +126,7 @@ export default function App() {
 
               {/* Research Card 2 */}
               <a 
-                href="https://docs.google.com/document/d/1qzKXoSVJyX2J_kw6O5GGaGoHGE6ZKREBDfOrMMMnhmE/edit?usp=sharing"
+                href="/pdfs/dogecoin-shorting-thesis.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group block"
