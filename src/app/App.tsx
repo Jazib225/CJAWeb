@@ -1,9 +1,11 @@
+import * as React from 'react';
 import { TrendingUp, Users, ChartBar, Mail, Linkedin } from 'lucide-react';
-import logo from "figma:asset/a632f2d0f30846efa3dc5e98eb742cff439a1307.png";
-import adiHeadshot from "figma:asset/7745adcfbc153ff7d293317a0e32eb66a8b457b6.png";
-import jazibHeadshot from "figma:asset/678ebadb985361a9a1b94843e0ffab7e9646f7d6.png";
-import chrisHeadshot from "figma:asset/c9e418b60465e4f52ec157c8838c0cd7a3c3b236.png";
-import winningPhoto from "figma:asset/bfa4c34b5e3c41f0b5b095fab7bc8f517baad849.png";
+
+const logo = new URL('../assets/a632f2d0f30846efa3dc5e98eb742cff439a1307.png', import.meta.url).href
+const adiHeadshot = new URL('../assets/7745adcfbc153ff7d293317a0e32eb66a8b457b6.png', import.meta.url).href
+const jazibHeadshot = new URL('../assets/678ebadb985361a9a1b94843e0ffab7e9646f7d6.png', import.meta.url).href
+const chrisHeadshot = new URL('../assets/c9e418b60465e4f52ec157c8838c0cd7a3c3b236.png', import.meta.url).href
+const winningPhoto = new URL('../assets/bfa4c34b5e3c41f0b5b095fab7bc8f517baad849.png', import.meta.url).href
 
 export default function App() {
   return (
