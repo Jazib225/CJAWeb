@@ -1,14 +1,54 @@
 import * as React from 'react';
-import { TrendingUp, Users, ChartBar, Mail, Linkedin } from 'lucide-react';
+import { TrendingUp, Users, ChartBar, Mail, Linkedin, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const logo = new URL('../assets/a632f2d0f30846efa3dc5e98eb742cff439a1307.png', import.meta.url).href
 const adiHeadshot = new URL('../assets/7745adcfbc153ff7d293317a0e32eb66a8b457b6.png', import.meta.url).href
 const jazibHeadshot = new URL('../assets/678ebadb985361a9a1b94843e0ffab7e9646f7d6.png', import.meta.url).href
 const chrisHeadshot = new URL('../assets/c9e418b60465e4f52ec157c8838c0cd7a3c3b236.png', import.meta.url).href
 const winningPhoto = new URL('../assets/bfa4c34b5e3c41f0b5b095fab7bc8f517baad849.png', import.meta.url).href
+const stakeclashPhoto = new URL('../assets/stakeclash.png', import.meta.url).href
 
 export default function App() {
   const [openPaper, setOpenPaper] = React.useState<null | 'stablecoins' | 'dogecoin'>(null)
+  const [currentProject, setCurrentProject] = React.useState(0)
+  const [isAnimating, setIsAnimating] = React.useState(false)
+
+  const projects = [
+    {
+      name: 'HyperSphere',
+      body1: 'A cross-chain NFC tap-to-pay USDC system enabling instant settlement across Solana and Base.',
+      body2: 'Selected 1st out of 200+ teams (75+ universities) at the University Blockchain Conference — Circle Track ($3,500).',
+      badges: [
+        { letter: 'C', label: 'Circle' },
+        { letter: 'S', label: 'Solana' },
+        { letter: 'B', label: 'Base' },
+      ],
+      image: winningPhoto,
+      imageAlt: 'CJA Capital Group winning at University Blockchain Conference',
+    },
+    {
+      name: 'StakeClash',
+      body1: 'A DeFi protocol that routes deposits into liquid staking and lending positions, letting users compete through generated yield without ever risking principal.',
+      body2: 'Won the Etherspace track ($1,000), the Hedera CLI Plugin bounty ($2,500), and a Celebrity Judge Honorable Mention ($1,000) at ETHDenver 2026.',
+      badges: [
+        { letter: 'H', label: 'Hedera' },
+        { letter: 'Hi', label: 'Hiero' },
+        { letter: 'Ξ', label: 'Ethereum' },
+      ],
+      image: stakeclashPhoto,
+      imageAlt: 'StakeClash hackathon',
+    },
+  ]
+
+  const goTo = (dir: 'prev' | 'next') => {
+    if (isAnimating) return
+    setIsAnimating(true)
+    setCurrentProject(prev => dir === 'next'
+      ? (prev + 1) % projects.length
+      : (prev - 1 + projects.length) % projects.length
+    )
+    setTimeout(() => setIsAnimating(false), 500)
+  }
 
   const isOpen = openPaper !== null
   const active = React.useMemo(() => {
@@ -107,7 +147,7 @@ export default function App() {
         <div className="max-w-[1400px] mx-auto px-12 py-5">
           <div className="flex items-center justify-between">
             <img src={logo} alt="CJA Capital Group" className="h-12" />
-            <a 
+            <a
               href="https://www.linkedin.com/company/cja-capital-group/posts/?feedView=all"
               target="_blank"
               rel="noopener noreferrer"
@@ -186,7 +226,7 @@ export default function App() {
             <p className="text-[0.8125rem] tracking-wider uppercase text-gray-400 mb-16 font-medium" style={{ letterSpacing: '0.12em' }}>
               Selected Research & Analysis
             </p>
-            
+
             <div className="grid grid-cols-2 gap-16">
               {/* Research Card 1 */}
               <div className="group block">
@@ -279,61 +319,88 @@ export default function App() {
         </div>
       </section>
 
-      {/* HyperSphere Project - Case study style */}
+      {/* Notable Projects - Carousel */}
       <section className="border-t border-gray-200 bg-white">
         <div className="max-w-[1400px] mx-auto px-12 py-32">
           <div className="grid grid-cols-12 gap-8">
             <div className="col-span-10 col-start-2">
-              <p className="text-[0.8125rem] tracking-wider uppercase text-gray-400 mb-12 font-medium" style={{ letterSpacing: '0.12em' }}>
-                Notable Project
-              </p>
-              
-              <div className="border-t border-gray-200 pt-12">
-                <h3 className="font-serif text-[2.5rem] leading-tight mb-8 font-light tracking-tight">
-                  HyperSphere
-                </h3>
-                <div className="grid grid-cols-12 gap-8">
-                  <div className="col-span-7">
-                    <p className="text-[1.0625rem] leading-relaxed text-gray-700 mb-6 font-light">
-                      A cross-chain NFC tap-to-pay USDC system enabling instant settlement across Solana and Base.
-                    </p>
-                    <p className="text-[0.9375rem] leading-relaxed text-gray-500 font-light">
-                      Selected 1st out of 200+ teams (75+ universities) at the University Blockchain Conference — Circle Track ($3,500).
-                    </p>
-                  </div>
-                  
-                  <div className="col-span-5 flex items-end justify-end">
-                    <div className="flex items-center gap-10">
-                      <div className="text-center">
-                        <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center mb-2">
-                          <span className="text-white font-semibold text-sm">C</span>
-                        </div>
-                        <span className="text-[0.75rem] tracking-wider uppercase text-gray-500" style={{ letterSpacing: '0.08em' }}>Circle</span>
-                      </div>
-                      <div className="text-center">
-                        <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center mb-2">
-                          <span className="text-white font-semibold text-sm">S</span>
-                        </div>
-                        <span className="text-[0.75rem] tracking-wider uppercase text-gray-500" style={{ letterSpacing: '0.08em' }}>Solana</span>
-                      </div>
-                      <div className="text-center">
-                        <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center mb-2">
-                          <span className="text-white font-semibold text-sm">B</span>
-                        </div>
-                        <span className="text-[0.75rem] tracking-wider uppercase text-gray-500" style={{ letterSpacing: '0.08em' }}>Base</span>
-                      </div>
-                    </div>
-                  </div>
+              {/* Header row with label + arrows */}
+              <div className="flex items-center justify-between mb-12">
+                <p className="text-[0.8125rem] tracking-wider uppercase text-gray-400 font-medium" style={{ letterSpacing: '0.12em' }}>
+                  Notable Projects
+                </p>
+                <div className="flex items-center gap-3">
+                  <span className="text-[0.8125rem] text-gray-400 font-light mr-2">
+                    {currentProject + 1} / {projects.length}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => goTo('prev')}
+                    disabled={isAnimating}
+                    className="w-9 h-9 border border-gray-300 hover:border-black flex items-center justify-center transition-colors disabled:opacity-40"
+                    aria-label="Previous project"
+                  >
+                    <ChevronLeft className="w-4 h-4" strokeWidth={1.5} />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => goTo('next')}
+                    disabled={isAnimating}
+                    className="w-9 h-9 border border-gray-300 hover:border-black flex items-center justify-center transition-colors disabled:opacity-40"
+                    aria-label="Next project"
+                  >
+                    <ChevronRight className="w-4 h-4" strokeWidth={1.5} />
+                  </button>
                 </div>
               </div>
-              
-              {/* Winning Photo */}
-              <div className="mt-16 border-t border-gray-200 pt-12">
-                <img 
-                  src={winningPhoto} 
-                  alt="CJA Capital Group winning at University Blockchain Conference"
-                  className="w-full rounded-sm"
-                />
+
+              {/* Carousel track */}
+              <div className="overflow-hidden border-t border-gray-200">
+                <div
+                  className="flex transition-transform duration-500 ease-in-out"
+                  style={{ transform: `translateX(-${currentProject * 100}%)` }}
+                >
+                  {projects.map((project, i) => (
+                    <div key={i} className="w-full shrink-0 pt-12">
+                      <h3 className="font-serif text-[2.5rem] leading-tight mb-8 font-light tracking-tight">
+                        {project.name}
+                      </h3>
+                      <div className="grid grid-cols-12 gap-8">
+                        <div className="col-span-7">
+                          <p className="text-[1.0625rem] leading-relaxed text-gray-700 mb-6 font-light">
+                            {project.body1}
+                          </p>
+                          <p className="text-[0.9375rem] leading-relaxed text-gray-500 font-light">
+                            {project.body2}
+                          </p>
+                        </div>
+
+                        <div className="col-span-5 flex items-end justify-end">
+                          <div className="flex items-center gap-10">
+                            {project.badges.map((badge) => (
+                              <div key={badge.label} className="flex flex-col items-center">
+                                <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center mb-2">
+                                  <span className="text-white font-semibold text-sm">{badge.letter}</span>
+                                </div>
+                                <span className="text-[0.75rem] uppercase text-gray-500">{badge.label}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+
+                      {project.image && (
+                        <div className="mt-16 border-t border-gray-200 pt-12">
+                          <img
+                            src={project.image}
+                            alt={project.imageAlt ?? ''}
+                            className="w-full rounded-sm"
+                          />
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -346,12 +413,12 @@ export default function App() {
           <p className="text-[0.8125rem] tracking-wider uppercase text-gray-400 mb-20 font-medium text-center" style={{ letterSpacing: '0.12em' }}>
             Team
           </p>
-          
+
           <div className="flex justify-center items-start gap-20">
             {/* Adi Chaudhary */}
             <div className="text-center">
               <div className="w-36 h-36 rounded-full overflow-hidden mb-6 mx-auto border border-gray-300">
-                <img 
+                <img
                   src={adiHeadshot}
                   alt="Adi Chaudhary"
                   className="w-full h-full object-cover"
@@ -367,7 +434,7 @@ export default function App() {
             {/* Christopher Herzog */}
             <div className="text-center">
               <div className="w-36 h-36 rounded-full overflow-hidden mb-6 mx-auto border-2 border-black bg-gray-100 flex items-center justify-center">
-                <img 
+                <img
                   src={chrisHeadshot}
                   alt="Christopher Herzog"
                   className="w-full h-full object-cover"
@@ -383,7 +450,7 @@ export default function App() {
             {/* Jazib Qureshi */}
             <div className="text-center">
               <div className="w-36 h-36 rounded-full overflow-hidden mb-6 mx-auto border border-gray-300">
-                <img 
+                <img
                   src={jazibHeadshot}
                   alt="Jazib Qureshi"
                   className="w-full h-full object-cover"
@@ -409,18 +476,18 @@ export default function App() {
             <p className="text-[0.9375rem] text-gray-600 mb-14 font-light">
               For collaboration, research, or inquiries.
             </p>
-            
+
             <div className="flex items-center justify-center gap-12">
-              <a 
-                href="mailto:cjacapitalgroup@gmail.com" 
+              <a
+                href="mailto:cjacapitalgroup@gmail.com"
                 className="flex items-center gap-3 text-gray-700 hover:text-black transition-colors group"
               >
                 <Mail className="w-5 h-5" strokeWidth={1.5} />
                 <span className="text-[0.9375rem] font-light border-b border-transparent group-hover:border-black transition-all">cjacapitalgroup@gmail.com</span>
               </a>
-              
-              <a 
-                href="https://www.linkedin.com/company/cja-capital-group/posts/?feedView=all" 
+
+              <a
+                href="https://www.linkedin.com/company/cja-capital-group/posts/?feedView=all"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-3 text-gray-700 hover:text-black transition-colors group"
