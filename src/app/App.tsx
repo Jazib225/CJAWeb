@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TrendingUp, Users, ChartBar, Mail, Linkedin, ChevronLeft, ChevronRight } from 'lucide-react';
+import { TrendingUp, Users, ChartBar, Mail, Linkedin } from 'lucide-react';
 
 const logo = new URL('../assets/a632f2d0f30846efa3dc5e98eb742cff439a1307.png', import.meta.url).href
 const adiHeadshot = new URL('../assets/7745adcfbc153ff7d293317a0e32eb66a8b457b6.png', import.meta.url).href
@@ -20,8 +20,6 @@ const navItems: { label: string; key: Page }[] = [
 export default function App() {
   const [openPaper, setOpenPaper] = React.useState<null | 'stablecoins' | 'dogecoin'>(null)
   const [currentPage, setCurrentPage] = React.useState<Page>('home')
-  const [currentProject, setCurrentProject] = React.useState(0)
-  const [isAnimating, setIsAnimating] = React.useState(false)
 
   React.useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -53,16 +51,6 @@ export default function App() {
       imageAlt: 'StakeClash hackathon',
     },
   ]
-
-  const goTo = (dir: 'prev' | 'next') => {
-    if (isAnimating) return
-    setIsAnimating(true)
-    setCurrentProject(prev => dir === 'next'
-      ? (prev + 1) % projects.length
-      : (prev - 1 + projects.length) % projects.length
-    )
-    setTimeout(() => setIsAnimating(false), 500)
-  }
 
   const isOpen = openPaper !== null
   const active = React.useMemo(() => {
@@ -191,11 +179,11 @@ export default function App() {
                 CJA Capital Group
               </h1>
               <div className="w-16 h-[1px] bg-black mb-8 mx-auto"></div>
-              <h2 className="text-[1.375rem] tracking-wide mb-10 font-light text-gray-800 uppercase" style={{ letterSpacing: '0.08em' }}>
-                Crypto Trading, Research & Infrastructure
-              </h2>
-              <p className="text-[1.0625rem] leading-relaxed text-gray-600 max-w-[560px] font-light mx-auto">
-                A student-led collective focused on proprietary crypto trading, mentorship, and experimental onchain payment systems.
+              <p className="text-[1.125rem] leading-relaxed text-gray-700 max-w-[640px] font-light mx-auto mb-10 italic">
+                A Web3-intersectional collective — researching, building, and investing at the frontier of blockchain, infrastructure, and AI.
+              </p>
+              <p className="text-[0.9375rem] leading-relaxed text-gray-500 max-w-[680px] font-light mx-auto">
+                CJA operates through three divisions: Chain, Junction, and Autonomy, spanning smart contract development, decentralized infrastructure, and AI-powered on-chain systems. We publish research, ship products, advise clients, and develop talent through a selective membership and multi-university network.
               </p>
             </div>
           </section>
@@ -317,76 +305,46 @@ export default function App() {
           <div className="max-w-[1400px] mx-auto px-12 py-32">
             <div className="grid grid-cols-12 gap-8">
               <div className="col-span-10 col-start-2">
-                <div className="flex items-center justify-between mb-12">
-                  <p className="text-[0.8125rem] tracking-wider uppercase text-gray-400 font-medium" style={{ letterSpacing: '0.12em' }}>
-                    Notable Projects
-                  </p>
-                  <div className="flex items-center gap-3">
-                    <span className="text-[0.8125rem] text-gray-400 font-light mr-2">
-                      {currentProject + 1} / {projects.length}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => goTo('prev')}
-                      disabled={isAnimating}
-                      className="w-9 h-9 bg-black text-white hover:bg-gray-700 flex items-center justify-center transition-colors disabled:opacity-40"
-                      aria-label="Previous project"
-                    >
-                      <ChevronLeft className="w-4 h-4 text-white" strokeWidth={1.5} />
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => goTo('next')}
-                      disabled={isAnimating}
-                      className="w-9 h-9 bg-black text-white hover:bg-gray-700 flex items-center justify-center transition-colors disabled:opacity-40"
-                      aria-label="Next project"
-                    >
-                      <ChevronRight className="w-4 h-4 text-white" strokeWidth={1.5} />
-                    </button>
-                  </div>
-                </div>
+                <p className="text-[0.8125rem] tracking-wider uppercase text-gray-400 font-medium mb-12" style={{ letterSpacing: '0.12em' }}>
+                  Notable Projects
+                </p>
 
-                <div className="overflow-hidden border-t border-gray-200">
-                  <div
-                    className="flex transition-transform duration-500 ease-in-out"
-                    style={{ transform: `translateX(-${currentProject * 100}%)` }}
-                  >
-                    {projects.map((project, i) => (
-                      <div key={i} className="w-full shrink-0 pt-12">
-                        <h3 className="font-serif text-[2.5rem] leading-tight mb-8 font-light tracking-tight">
-                          {project.name}
-                        </h3>
-                        <div className="grid grid-cols-12 gap-8">
-                          <div className="col-span-7">
-                            <p className="text-[1.0625rem] leading-relaxed text-gray-700 mb-6 font-light">
-                              {project.body1}
-                            </p>
-                            <p className="text-[0.9375rem] leading-relaxed text-gray-500 font-light">
-                              {project.body2}
-                            </p>
-                          </div>
-                          <div className="col-span-5 flex items-end justify-end">
-                            <div className="flex items-center gap-10">
-                              {project.badges.map((badge) => (
-                                <div key={badge.label} className="flex flex-col items-center">
-                                  <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center mb-2">
-                                    <span className="text-white font-semibold text-sm">{badge.letter}</span>
-                                  </div>
-                                  <span className="text-[0.75rem] uppercase text-gray-500">{badge.label}</span>
+                {projects.map((project, i) => (
+                  <div key={project.name}>
+                    <div className={['border-t border-gray-200 pt-12', i > 0 ? 'mt-20' : ''].join(' ')}>
+                      <h3 className="font-serif text-[2.5rem] leading-tight mb-8 font-light tracking-tight">
+                        {project.name}
+                      </h3>
+                      <div className="grid grid-cols-12 gap-8">
+                        <div className="col-span-7">
+                          <p className="text-[1.0625rem] leading-relaxed text-gray-700 mb-6 font-light">
+                            {project.body1}
+                          </p>
+                          <p className="text-[0.9375rem] leading-relaxed text-gray-500 font-light">
+                            {project.body2}
+                          </p>
+                        </div>
+                        <div className="col-span-5 flex items-end justify-end">
+                          <div className="flex items-center gap-10">
+                            {project.badges.map((badge) => (
+                              <div key={badge.label} className="flex flex-col items-center">
+                                <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center mb-2">
+                                  <span className="text-white font-semibold text-sm">{badge.letter}</span>
                                 </div>
-                              ))}
-                            </div>
+                                <span className="text-[0.75rem] uppercase text-gray-500">{badge.label}</span>
+                              </div>
+                            ))}
                           </div>
                         </div>
-                        {project.image && (
-                          <div className="mt-16 border-t border-gray-200 pt-12">
-                            <img src={project.image} alt={project.imageAlt ?? ''} className="w-full rounded-sm" />
-                          </div>
-                        )}
                       </div>
-                    ))}
+                      {project.image && (
+                        <div className="mt-16 border-t border-gray-200 pt-12">
+                          <img src={project.image} alt={project.imageAlt ?? ''} className="w-full rounded-sm" />
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
+                ))}
               </div>
             </div>
           </div>
