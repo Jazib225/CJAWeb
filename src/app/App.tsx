@@ -173,26 +173,23 @@ export default function App() {
       {currentPage === 'home' && (
         <>
           {/* Hero */}
-          <section className="max-w-[1400px] mx-auto px-12 pt-40 pb-32">
+          <section className="max-w-[1400px] mx-auto px-12 pt-24 pb-16">
             <div className="max-w-[900px] mx-auto text-center">
               <h1 className="font-serif text-[5rem] leading-[0.95] tracking-tight mb-8 font-light">
                 CJA Capital Group
               </h1>
               <div className="w-16 h-[1px] bg-black mb-8 mx-auto"></div>
-              <p className="text-[1.125rem] leading-relaxed text-gray-700 max-w-[640px] font-light mx-auto mb-10 italic">
+              <p className="text-[1.125rem] leading-relaxed text-gray-700 max-w-[640px] font-light mx-auto">
                 A Web3-intersectional collective — researching, building, and investing at the frontier of blockchain, infrastructure, and AI.
-              </p>
-              <p className="text-[0.9375rem] leading-relaxed text-gray-500 max-w-[680px] font-light mx-auto">
-                CJA operates through three divisions: Chain, Junction, and Autonomy, spanning smart contract development, decentralized infrastructure, and AI-powered on-chain systems. We publish research, ship products, advise clients, and develop talent through a selective membership and multi-university network.
               </p>
             </div>
           </section>
 
-          {/* Goals — What We Do */}
+          {/* Divisions — Chain, Junction, Autonomy */}
           <section className="bg-gray-50 border-t border-b border-gray-200">
-            <div className="max-w-[1400px] mx-auto px-12 py-28">
-              <p className="text-[0.8125rem] tracking-wider uppercase text-gray-400 mb-16 font-medium" style={{ letterSpacing: '0.12em' }}>
-                Goals
+            <div className="max-w-[1400px] mx-auto px-12 py-20">
+              <p className="text-[0.8125rem] tracking-wider uppercase text-gray-400 mb-14 font-medium" style={{ letterSpacing: '0.12em' }}>
+                Divisions
               </p>
               <div className="grid grid-cols-12 gap-8">
                 <div className="col-span-4 col-start-1">
@@ -200,10 +197,10 @@ export default function App() {
                     <TrendingUp className="w-7 h-7 text-black" strokeWidth={1.25} />
                   </div>
                   <h3 className="text-[0.9375rem] tracking-wider uppercase mb-5 font-medium" style={{ letterSpacing: '0.1em' }}>
-                    Proprietary Trading & Research
+                    Chain
                   </h3>
                   <p className="text-[0.9375rem] leading-relaxed text-gray-600 font-light">
-                    Data-driven strategies across crypto spot and derivatives markets
+                    Smart contract development and on-chain protocol engineering across EVM and non-EVM ecosystems
                   </p>
                 </div>
                 <div className="col-span-4">
@@ -211,10 +208,10 @@ export default function App() {
                     <Users className="w-7 h-7 text-black" strokeWidth={1.25} />
                   </div>
                   <h3 className="text-[0.9375rem] tracking-wider uppercase mb-5 font-medium" style={{ letterSpacing: '0.1em' }}>
-                    Mentorship & Education
+                    Junction
                   </h3>
                   <p className="text-[0.9375rem] leading-relaxed text-gray-600 font-light">
-                    Guided student traders through structured research and risk frameworks
+                    Decentralized infrastructure, cross-chain systems, and network-layer tooling for the open web
                   </p>
                 </div>
                 <div className="col-span-4">
@@ -222,10 +219,10 @@ export default function App() {
                     <ChartBar className="w-7 h-7 text-black" strokeWidth={1.25} />
                   </div>
                   <h3 className="text-[0.9375rem] tracking-wider uppercase mb-5 font-medium" style={{ letterSpacing: '0.1em' }}>
-                    Onchain Infrastructure
+                    Autonomy
                   </h3>
                   <p className="text-[0.9375rem] leading-relaxed text-gray-600 font-light">
-                    Built experimental payment and settlement primitives using blockchain rails
+                    AI-powered on-chain systems, autonomous agents, and machine-learning applications for crypto markets
                   </p>
                 </div>
               </div>
@@ -233,7 +230,7 @@ export default function App() {
           </section>
 
           {/* Summary of Accomplishments */}
-          <section className="max-w-[1400px] mx-auto px-12 py-32">
+          <section className="max-w-[1400px] mx-auto px-12 py-20">
             <div className="grid grid-cols-12 gap-8">
               <div className="col-span-5 col-start-2">
                 <p className="text-[0.8125rem] tracking-wider uppercase text-gray-400 mb-8 font-medium" style={{ letterSpacing: '0.12em' }}>
@@ -270,7 +267,7 @@ export default function App() {
 
           {/* Contact */}
           <section className="border-t border-gray-200">
-            <div className="max-w-[1400px] mx-auto px-12 py-32">
+            <div className="max-w-[1400px] mx-auto px-12 py-20">
               <div className="max-w-[700px] mx-auto text-center">
                 <h2 className="font-serif text-[2.25rem] mb-6 font-light tracking-tight">
                   Contact Us
