@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TrendingUp, Users, ChartBar, Mail, Linkedin } from 'lucide-react';
+import { TrendingUp, Users, ChartBar, Mail, Linkedin, Link2, Network, Cpu } from 'lucide-react';
 
 const logo = new URL('../assets/a632f2d0f30846efa3dc5e98eb742cff439a1307.png', import.meta.url).href
 const adiHeadshot = new URL('../assets/7745adcfbc153ff7d293317a0e32eb66a8b457b6.png', import.meta.url).href
@@ -180,7 +180,7 @@ export default function App() {
               </h1>
               <div className="w-16 h-[1px] bg-black mb-8 mx-auto"></div>
               <p className="text-[1.125rem] leading-relaxed text-gray-700 max-w-[640px] font-light mx-auto">
-                A Web3-intersectional collective — researching, building, and investing at the frontier of blockchain, infrastructure, and AI.
+                A Web3-intersectional collective researching, building, and investing at the frontier of blockchain, infrastructure, and AI.
               </p>
             </div>
           </section>
@@ -193,6 +193,9 @@ export default function App() {
               </p>
               <div className="grid grid-cols-12 gap-8">
                 <div className="col-span-4 col-start-1">
+                  <div className="mb-7">
+                    <Link2 className="w-7 h-7 text-black" strokeWidth={1.25} />
+                  </div>
                   <h3 className="text-[0.9375rem] tracking-wider uppercase mb-5 font-medium" style={{ letterSpacing: '0.1em' }}>
                     Chain
                   </h3>
@@ -201,6 +204,9 @@ export default function App() {
                   </p>
                 </div>
                 <div className="col-span-4">
+                  <div className="mb-7">
+                    <Network className="w-7 h-7 text-black" strokeWidth={1.25} />
+                  </div>
                   <h3 className="text-[0.9375rem] tracking-wider uppercase mb-5 font-medium" style={{ letterSpacing: '0.1em' }}>
                     Junction
                   </h3>
@@ -209,6 +215,9 @@ export default function App() {
                   </p>
                 </div>
                 <div className="col-span-4">
+                  <div className="mb-7">
+                    <Cpu className="w-7 h-7 text-black" strokeWidth={1.25} />
+                  </div>
                   <h3 className="text-[0.9375rem] tracking-wider uppercase mb-5 font-medium" style={{ letterSpacing: '0.1em' }}>
                     Autonomy
                   </h3>
