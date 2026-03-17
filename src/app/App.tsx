@@ -11,7 +11,7 @@ const stakeclashPhoto = new URL('../assets/stakeclash.png', import.meta.url).hre
 type Page = 'home' | 'projects' | 'research' | 'team'
 
 const navItems: { label: string; key: Page }[] = [
-  { label: 'Homepage', key: 'home' },
+  { label: 'Home', key: 'home' },
   { label: 'Projects', key: 'projects' },
   { label: 'Research', key: 'research' },
   { label: 'Team', key: 'team' },
@@ -27,18 +27,6 @@ export default function App() {
 
   const projects = [
     {
-      name: 'HyperSphere',
-      body1: 'A cross-chain NFC tap-to-pay USDC system enabling instant settlement across Solana and Base.',
-      body2: 'Selected 1st out of 200+ teams (75+ universities) at the University Blockchain Conference — Circle Track ($3,500).',
-      badges: [
-        { letter: 'C', label: 'Circle' },
-        { letter: 'S', label: 'Solana' },
-        { letter: 'B', label: 'Base' },
-      ],
-      image: winningPhoto,
-      imageAlt: 'CJA Capital Group winning at University Blockchain Conference',
-    },
-    {
       name: 'StakeClash',
       body1: 'A DeFi protocol that routes deposits into liquid staking and lending positions, letting users compete through generated yield without ever risking principal.',
       body2: 'Won the Etherspace track ($1,000), the Hedera CLI Plugin bounty ($2,500), and a Celebrity Judge Honorable Mention ($1,000) at ETHDenver 2026.',
@@ -49,6 +37,18 @@ export default function App() {
       ],
       image: stakeclashPhoto,
       imageAlt: 'StakeClash hackathon',
+    },
+    {
+      name: 'HyperSphere',
+      body1: 'A cross-chain NFC tap-to-pay USDC system enabling instant settlement across Solana and Base.',
+      body2: 'Selected 1st out of 200+ teams (75+ universities) at the University Blockchain Conference — Circle Track ($3,500).',
+      badges: [
+        { letter: 'C', label: 'Circle' },
+        { letter: 'S', label: 'Solana' },
+        { letter: 'B', label: 'Base' },
+      ],
+      image: winningPhoto,
+      imageAlt: 'CJA Capital Group winning at University Blockchain Conference',
     },
   ]
 
