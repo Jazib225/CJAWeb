@@ -185,11 +185,29 @@ export default function App() {
             </div>
           </section>
 
-          {/* Divisions — Chain, Junction, Autonomy */}
+          {/* About */}
+          <section className="border-t border-gray-200">
+            <div className="max-w-[1400px] mx-auto px-12 py-16">
+              <div className="grid grid-cols-12 gap-8">
+                <div className="col-span-3">
+                  <p className="text-[0.8125rem] tracking-wider uppercase text-gray-400 font-medium" style={{ letterSpacing: '0.12em' }}>
+                    About
+                  </p>
+                </div>
+                <div className="col-span-7">
+                  <p className="text-[1rem] leading-relaxed text-gray-700 font-light">
+                    CJA operates through three divisions: Chain, Junction, and Autonomy, spanning smart contract development, decentralized infrastructure, and AI-powered on-chain systems. We publish research, ship products, advise clients, and develop talent through a selective membership and multi-university network.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Goals — What We Do */}
           <section className="bg-gray-50 border-t border-b border-gray-200">
             <div className="max-w-[1400px] mx-auto px-12 py-20">
               <p className="text-[0.8125rem] tracking-wider uppercase text-gray-400 mb-14 font-medium" style={{ letterSpacing: '0.12em' }}>
-                Divisions
+                Goals
               </p>
               <div className="grid grid-cols-12 gap-8">
                 <div className="col-span-4 col-start-1">
@@ -197,10 +215,10 @@ export default function App() {
                     <TrendingUp className="w-7 h-7 text-black" strokeWidth={1.25} />
                   </div>
                   <h3 className="text-[0.9375rem] tracking-wider uppercase mb-5 font-medium" style={{ letterSpacing: '0.1em' }}>
-                    Chain
+                    Proprietary Trading & Research
                   </h3>
                   <p className="text-[0.9375rem] leading-relaxed text-gray-600 font-light">
-                    Smart contract development and on-chain protocol engineering across EVM and non-EVM ecosystems
+                    Data-driven strategies across crypto spot and derivatives markets
                   </p>
                 </div>
                 <div className="col-span-4">
@@ -208,10 +226,10 @@ export default function App() {
                     <Users className="w-7 h-7 text-black" strokeWidth={1.25} />
                   </div>
                   <h3 className="text-[0.9375rem] tracking-wider uppercase mb-5 font-medium" style={{ letterSpacing: '0.1em' }}>
-                    Junction
+                    Mentorship & Education
                   </h3>
                   <p className="text-[0.9375rem] leading-relaxed text-gray-600 font-light">
-                    Decentralized infrastructure, cross-chain systems, and network-layer tooling for the open web
+                    Guided student traders through structured research and risk frameworks
                   </p>
                 </div>
                 <div className="col-span-4">
@@ -219,10 +237,10 @@ export default function App() {
                     <ChartBar className="w-7 h-7 text-black" strokeWidth={1.25} />
                   </div>
                   <h3 className="text-[0.9375rem] tracking-wider uppercase mb-5 font-medium" style={{ letterSpacing: '0.1em' }}>
-                    Autonomy
+                    Onchain Infrastructure
                   </h3>
                   <p className="text-[0.9375rem] leading-relaxed text-gray-600 font-light">
-                    AI-powered on-chain systems, autonomous agents, and machine-learning applications for crypto markets
+                    Built experimental payment and settlement primitives using blockchain rails
                   </p>
                 </div>
               </div>
