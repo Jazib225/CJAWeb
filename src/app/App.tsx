@@ -7,8 +7,15 @@ const jazibHeadshot = new URL('../assets/678ebadb985361a9a1b94843e0ffab7e9646f7d
 const chrisHeadshot = new URL('../assets/c9e418b60465e4f52ec157c8838c0cd7a3c3b236.png', import.meta.url).href
 const winningPhoto = new URL('../assets/bfa4c34b5e3c41f0b5b095fab7bc8f517baad849.png', import.meta.url).href
 const stakeclashPhoto = new URL('../assets/stakeclash.png', import.meta.url).href
+const iconHedera = new URL('../assets/Hedera.png', import.meta.url).href
+const iconUSDC = new URL('../assets/USDC.png', import.meta.url).href
+const iconETH = new URL('../assets/ETH.png', import.meta.url).href
+const iconCircle = new URL('../assets/Circle.png', import.meta.url).href
+const iconSolana = new URL('../assets/Solana.png', import.meta.url).href
+const iconBase = new URL('../assets/Base.png', import.meta.url).href
 
 type Page = 'home' | 'projects' | 'research' | 'team'
+type Badge = { letter: string; label: string; icon?: string }
 
 const navItems: { label: string; key: Page }[] = [
   { label: 'Home', key: 'home' },
@@ -31,10 +38,10 @@ export default function App() {
       body1: 'A DeFi protocol that routes deposits into liquid staking and lending positions, letting users compete through generated yield without ever risking principal.',
       body2: 'Won the Etherspace track ($1,000), the Hedera CLI Plugin bounty ($2,500), and a Celebrity Judge Honorable Mention ($1,000) at ETHDenver 2026.',
       badges: [
-        { letter: 'H', label: 'Hedera' },
-        { letter: 'Hi', label: 'Hiero' },
-        { letter: 'Ξ', label: 'Ethereum' },
-      ],
+        { letter: 'H', label: 'Hedera', icon: iconHedera },
+        { letter: 'U', label: 'USDC', icon: iconUSDC },
+        { letter: 'Ξ', label: 'Ethereum', icon: iconETH },
+      ] as Badge[],
       image: stakeclashPhoto,
       imageAlt: 'StakeClash hackathon',
     },
@@ -43,10 +50,10 @@ export default function App() {
       body1: 'A cross-chain NFC tap-to-pay USDC system enabling instant settlement across Solana and Base.',
       body2: 'Selected 1st out of 200+ teams (75+ universities) at the University Blockchain Conference — Circle Track ($3,500).',
       badges: [
-        { letter: 'C', label: 'Circle' },
-        { letter: 'S', label: 'Solana' },
-        { letter: 'B', label: 'Base' },
-      ],
+        { letter: 'C', label: 'Circle', icon: iconCircle },
+        { letter: 'S', label: 'Solana', icon: iconSolana },
+        { letter: 'B', label: 'Base', icon: iconBase },
+      ] as Badge[],
       image: winningPhoto,
       imageAlt: 'CJA Capital Group winning at University Blockchain Conference',
     },
@@ -368,9 +375,12 @@ export default function App() {
                         <div className="col-span-5 flex items-end justify-end">
                           <div className="flex items-center gap-10">
                             {project.badges.map((badge) => (
-                              <div key={badge.label} className="flex flex-col items-center">
-                                <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center mb-2">
-                                  <span className="text-white font-semibold text-sm">{badge.letter}</span>
+                              <div key={badge.label} className="flex flex-col items-center gap-2">
+                                <div className="w-12 h-12 rounded-full flex items-center justify-center overflow-hidden bg-white border border-gray-200">
+                                  {badge.icon
+                                    ? <img src={badge.icon} alt={badge.label} className="w-full h-full object-contain p-1" />
+                                    : <div className="w-full h-full rounded-full bg-black flex items-center justify-center"><span className="text-white font-semibold text-sm">{badge.letter}</span></div>
+                                  }
                                 </div>
                                 <span className="text-[0.75rem] uppercase text-gray-500">{badge.label}</span>
                               </div>
@@ -464,13 +474,13 @@ export default function App() {
             </p>
             <div className="flex justify-center items-start gap-20">
               <div className="text-center">
-                <div className="w-36 h-36 rounded-full overflow-hidden mb-6 mx-auto border border-gray-300">
+                <div className="w-36 h-36 rounded-full overflow-hidden mb-6 mx-auto border-2 border-black bg-gray-100 flex items-center justify-center">
                   <img src={adiHeadshot} alt="Adi Chaudhary" className="w-full h-full object-cover" />
                 </div>
                 <div>
-                  <h3 className="text-[1rem] mb-1 font-medium tracking-wide">Adi Chaudhary</h3>
-                  <div className="w-8 h-[1px] bg-gray-300 mx-auto mb-2"></div>
-                  <p className="text-[0.8125rem] text-gray-500 tracking-wider uppercase font-light" style={{ letterSpacing: '0.08em' }}>Co-Founder</p>
+                  <h3 className="text-[1rem] mb-1 font-semibold tracking-wide">Adi Chaudhary</h3>
+                  <div className="w-10 h-[1px] bg-black mx-auto mb-2"></div>
+                  <p className="text-[0.8125rem] text-gray-700 tracking-wider uppercase font-medium" style={{ letterSpacing: '0.08em' }}>Co-Founder</p>
                 </div>
               </div>
 
@@ -486,13 +496,13 @@ export default function App() {
               </div>
 
               <div className="text-center">
-                <div className="w-36 h-36 rounded-full overflow-hidden mb-6 mx-auto border border-gray-300">
+                <div className="w-36 h-36 rounded-full overflow-hidden mb-6 mx-auto border-2 border-black bg-gray-100 flex items-center justify-center">
                   <img src={jazibHeadshot} alt="Jazib Qureshi" className="w-full h-full object-cover" />
                 </div>
                 <div>
-                  <h3 className="text-[1rem] mb-1 font-medium tracking-wide">Jazib Qureshi</h3>
-                  <div className="w-8 h-[1px] bg-gray-300 mx-auto mb-2"></div>
-                  <p className="text-[0.8125rem] text-gray-500 tracking-wider uppercase font-light" style={{ letterSpacing: '0.08em' }}>Co-Founder</p>
+                  <h3 className="text-[1rem] mb-1 font-semibold tracking-wide">Jazib Qureshi</h3>
+                  <div className="w-10 h-[1px] bg-black mx-auto mb-2"></div>
+                  <p className="text-[0.8125rem] text-gray-700 tracking-wider uppercase font-medium" style={{ letterSpacing: '0.08em' }}>Co-Founder</p>
                 </div>
               </div>
             </div>
