@@ -185,18 +185,35 @@ export default function App() {
             </div>
           </section>
 
-          {/* About */}
+          {/* About — Divisions */}
           <section className="border-t border-gray-200">
-            <div className="max-w-[1400px] mx-auto px-12 py-16">
+            <div className="max-w-[1400px] mx-auto px-12 py-20">
+              <p className="text-[0.8125rem] tracking-wider uppercase text-gray-400 mb-14 font-medium" style={{ letterSpacing: '0.12em' }}>
+                About
+              </p>
               <div className="grid grid-cols-12 gap-8">
-                <div className="col-span-3">
-                  <p className="text-[0.8125rem] tracking-wider uppercase text-gray-400 font-medium" style={{ letterSpacing: '0.12em' }}>
-                    About
+                <div className="col-span-4 col-start-1">
+                  <h3 className="text-[0.9375rem] tracking-wider uppercase mb-5 font-medium" style={{ letterSpacing: '0.1em' }}>
+                    Chain
+                  </h3>
+                  <p className="text-[0.9375rem] leading-relaxed text-gray-600 font-light">
+                    Smart contract development and on-chain protocol engineering across EVM and non-EVM ecosystems
                   </p>
                 </div>
-                <div className="col-span-7">
-                  <p className="text-[1rem] leading-relaxed text-gray-700 font-light">
-                    CJA operates through three divisions: Chain, Junction, and Autonomy, spanning smart contract development, decentralized infrastructure, and AI-powered on-chain systems. We publish research, ship products, advise clients, and develop talent through a selective membership and multi-university network.
+                <div className="col-span-4">
+                  <h3 className="text-[0.9375rem] tracking-wider uppercase mb-5 font-medium" style={{ letterSpacing: '0.1em' }}>
+                    Junction
+                  </h3>
+                  <p className="text-[0.9375rem] leading-relaxed text-gray-600 font-light">
+                    Decentralized infrastructure, cross-chain systems, and network-layer tooling for the open web
+                  </p>
+                </div>
+                <div className="col-span-4">
+                  <h3 className="text-[0.9375rem] tracking-wider uppercase mb-5 font-medium" style={{ letterSpacing: '0.1em' }}>
+                    Autonomy
+                  </h3>
+                  <p className="text-[0.9375rem] leading-relaxed text-gray-600 font-light">
+                    AI-powered on-chain systems, autonomous agents, and machine-learning applications for crypto markets
                   </p>
                 </div>
               </div>
@@ -284,7 +301,7 @@ export default function App() {
           </section>
 
           {/* Contact */}
-          <section className="border-t border-gray-200">
+          <section className="bg-gray-50 border-t border-b border-gray-200">
             <div className="max-w-[1400px] mx-auto px-12 py-20">
               <div className="max-w-[700px] mx-auto text-center">
                 <h2 className="font-serif text-[2.25rem] mb-6 font-light tracking-tight">
