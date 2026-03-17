@@ -36,7 +36,7 @@ export default function App() {
     {
       name: 'StakeClash',
       body1: 'A DeFi protocol that routes deposits into liquid staking and lending positions, letting users compete through generated yield without ever risking principal.',
-      body2: 'Won the Etherspace track ($1,000), the Hedera CLI Plugin bounty ($2,500), and a Celebrity Judge Honorable Mention ($1,000) at ETHDenver 2026.',
+      body2: 'Won the ETHERSPACE track ($1,000), the Hedera CLI Plugin bounty ($2,500), and a Celebrity Judge Honorable Mention ($1,000) at ETHDenver 2026.',
       badges: [
         { letter: 'H', label: 'Hedera', icon: iconHedera },
         { letter: 'U', label: 'USDC', icon: iconUSDC },
