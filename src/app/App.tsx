@@ -5,6 +5,8 @@ const logo = new URL('../assets/a632f2d0f30846efa3dc5e98eb742cff439a1307.png', i
 const adiHeadshot = new URL('../assets/7745adcfbc153ff7d293317a0e32eb66a8b457b6.png', import.meta.url).href
 const jazibHeadshot = new URL('../assets/678ebadb985361a9a1b94843e0ffab7e9646f7d6.png', import.meta.url).href
 const chrisHeadshot = new URL('../assets/c9e418b60465e4f52ec157c8838c0cd7a3c3b236.png', import.meta.url).href
+const abdallahHeadshot = new URL('../assets/abdallah.jpg', import.meta.url).href
+const joeHeadshot = new URL('../assets/joe.jpg', import.meta.url).href
 const winningPhoto = new URL('../assets/bfa4c34b5e3c41f0b5b095fab7bc8f517baad849.png', import.meta.url).href
 const stakeclashPhoto = new URL('../assets/stakeclash.png', import.meta.url).href
 const iconHedera = new URL('../assets/Hedera.png', import.meta.url).href
@@ -16,6 +18,15 @@ const iconBase = new URL('../assets/Base.png', import.meta.url).href
 
 type Page = 'home' | 'projects' | 'research' | 'team'
 type Badge = { letter: string; label: string; icon?: string }
+type Project = {
+  name: string
+  body1: string
+  body2: string
+  badges: Badge[]
+  image?: string
+  imageAlt?: string
+  winnings?: number
+}
 
 const navItems: { label: string; key: Page }[] = [
   { label: 'Home', key: 'home' },
@@ -32,7 +43,7 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }, [currentPage])
 
-  const projects = [
+  const projects: Project[] = [
     {
       name: 'StakeClash',
       body1: 'A DeFi protocol that routes deposits into liquid staking and lending positions, letting users compete through generated yield without ever risking principal.',
@@ -42,6 +53,7 @@ export default function App() {
         { letter: 'U', label: 'USDC', icon: iconUSDC },
         { letter: 'Ξ', label: 'Ethereum', icon: iconETH },
       ] as Badge[],
+      winnings: 4500,
       image: stakeclashPhoto,
       imageAlt: 'StakeClash hackathon',
     },
@@ -54,10 +66,16 @@ export default function App() {
         { letter: 'S', label: 'Solana', icon: iconSolana },
         { letter: 'B', label: 'Base', icon: iconBase },
       ] as Badge[],
+      winnings: 3500,
       image: winningPhoto,
       imageAlt: 'CJA Capital Group winning at University Blockchain Conference',
     },
   ]
+
+  const totalHackathonWinnings = React.useMemo(
+    () => projects.reduce((sum, project) => sum + (project.winnings ?? 0), 0),
+    [projects],
+  )
 
   const isOpen = openPaper !== null
   const active = React.useMemo(() => {
@@ -104,7 +122,7 @@ export default function App() {
           <div className="flex items-center justify-between gap-4 px-5 py-4 border-b border-gray-200">
             <div className="min-w-0">
               <p className="text-[0.75rem] tracking-wider uppercase text-gray-500 font-medium" style={{ letterSpacing: '0.1em' }}>
-                Research Note
+                Research Paper
               </p>
               <h3 className="font-serif text-[1.125rem] leading-tight tracking-tight text-gray-900 truncate">
                 {active?.title ?? ''}
@@ -282,14 +300,14 @@ export default function App() {
 
           {/* Summary of Accomplishments */}
           <section className="max-w-[1400px] mx-auto px-12 py-20">
-            <div className="grid grid-cols-12 gap-8">
-              <div className="col-span-5 col-start-2">
+            <div className="max-w-[1100px] mx-auto grid grid-cols-12 gap-8">
+              <div className="col-span-5">
                 <p className="text-[0.8125rem] tracking-wider uppercase text-gray-400 mb-8 font-medium" style={{ letterSpacing: '0.12em' }}>
                   Summary of Accomplishments
                 </p>
                 <div className="w-12 h-[1px] bg-gray-300 mb-12"></div>
               </div>
-              <div className="col-span-6">
+              <div className="col-span-7">
                 <div className="space-y-7">
                   <div className="border-l-2 border-black pl-6">
                     <p className="text-[1rem] leading-relaxed text-gray-800">
@@ -350,12 +368,16 @@ export default function App() {
       {/* ── PROJECTS ── */}
       {currentPage === 'projects' && (
         <section className="border-t border-gray-200 bg-white">
-          <div className="max-w-[1400px] mx-auto px-12 py-32">
-            <div className="grid grid-cols-12 gap-8">
-              <div className="col-span-10 col-start-2">
-                <p className="text-[0.8125rem] tracking-wider uppercase text-gray-400 font-medium mb-12" style={{ letterSpacing: '0.12em' }}>
-                  Notable Projects
-                </p>
+          <div className="max-w-[1400px] mx-auto px-12 pt-20 pb-32">
+            <div className="max-w-[1100px] mx-auto">
+                <div className="mb-12">
+                  <p className="text-[0.75rem] tracking-wider uppercase text-gray-400 font-medium" style={{ letterSpacing: '0.1em' }}>
+                    Total Hackathon Winnings
+                  </p>
+                  <h2 className="font-serif text-[clamp(3rem,10vw,6.5rem)] leading-none tracking-tight font-light text-black mt-4">
+                    ${totalHackathonWinnings.toLocaleString()}
+                  </h2>
+                </div>
 
                 {projects.map((project, i) => (
                   <div key={project.name}>
@@ -396,7 +418,6 @@ export default function App() {
                     </div>
                   </div>
                 ))}
-              </div>
             </div>
           </div>
         </section>
@@ -405,16 +426,13 @@ export default function App() {
       {/* ── RESEARCH ── */}
       {currentPage === 'research' && (
         <section className="border-t border-gray-200 bg-white">
-          <div className="max-w-[1400px] mx-auto px-12 py-32">
+          <div className="max-w-[1400px] mx-auto px-12 pt-20 pb-32">
             <div className="max-w-[1100px] mx-auto">
-              <p className="text-[0.8125rem] tracking-wider uppercase text-gray-400 mb-16 font-medium" style={{ letterSpacing: '0.12em' }}>
-                Selected Research & Analysis
-              </p>
               <div className="grid grid-cols-2 gap-16">
                 <div className="group block">
                   <div className="mb-8">
                     <p className="text-[0.75rem] tracking-wider uppercase text-gray-400 mb-6 font-medium" style={{ letterSpacing: '0.1em' }}>
-                      Research Note
+                      Research Paper
                     </p>
                     <h3 className="font-serif text-[1.75rem] leading-tight mb-6 font-normal tracking-tight text-gray-900">
                       Stablecoins Explained: Why Crypto Needs a Dollar Twin
@@ -437,7 +455,7 @@ export default function App() {
                 <div className="group block">
                   <div className="mb-8">
                     <p className="text-[0.75rem] tracking-wider uppercase text-gray-400 mb-6 font-medium" style={{ letterSpacing: '0.1em' }}>
-                      Research Note
+                      Research Paper
                     </p>
                     <h3 className="font-serif text-[1.75rem] leading-tight mb-6 font-normal tracking-tight text-gray-900">
                       Dogecoin (DOGE): Shorting an Inflationary Meme Asset in Structural Decline
@@ -468,19 +486,19 @@ export default function App() {
       {/* ── TEAM ── */}
       {currentPage === 'team' && (
         <section className="bg-gray-50 border-t border-gray-200">
-          <div className="max-w-[1400px] mx-auto px-12 py-32">
-            <p className="text-[0.8125rem] tracking-wider uppercase text-gray-400 mb-20 font-medium text-center" style={{ letterSpacing: '0.12em' }}>
-              Team
+          <div className="max-w-[1400px] mx-auto px-12 pt-20 pb-32">
+            <p className="text-[0.8125rem] tracking-wider uppercase text-gray-500 mb-12 font-light text-center" style={{ letterSpacing: '0.12em' }}>
+              Founding Team
             </p>
-            <div className="flex justify-center items-start gap-20">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-20 gap-y-14 max-w-[1100px] mx-auto justify-items-center mb-20">
               <div className="text-center">
-                <div className="w-36 h-36 rounded-full overflow-hidden mb-6 mx-auto border-2 border-black bg-gray-100 flex items-center justify-center">
+                <div className="w-36 h-36 rounded-full overflow-hidden mb-6 mx-auto border border-gray-400 bg-gray-100 flex items-center justify-center">
                   <img src={adiHeadshot} alt="Adi Chaudhary" className="w-full h-full object-cover" />
                 </div>
                 <div>
-                  <h3 className="text-[1rem] mb-1 font-semibold tracking-wide">Adi Chaudhary</h3>
-                  <div className="w-10 h-[1px] bg-black mx-auto mb-2"></div>
-                  <p className="text-[0.8125rem] text-gray-700 tracking-wider uppercase font-medium" style={{ letterSpacing: '0.08em' }}>Co-Founder</p>
+                  <h3 className="text-[1rem] mb-1 font-normal tracking-wide">Adi Chaudhary</h3>
+                  <p className="text-[0.8125rem] text-gray-700 tracking-wider uppercase font-light" style={{ letterSpacing: '0.08em' }}>Co-Founder</p>
+                  <p className="text-[0.8125rem] text-gray-700 tracking-wider uppercase font-light mt-1" style={{ letterSpacing: '0.08em' }}>Chief Technology Officer</p>
                   <a href="https://www.linkedin.com/in/adi-chaudharyy/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center mt-4 text-gray-500 hover:text-black transition-colors" aria-label="LinkedIn">
                     <LinkedInIcon className="w-4 h-4" />
                   </a>
@@ -488,13 +506,13 @@ export default function App() {
               </div>
 
               <div className="text-center">
-                <div className="w-36 h-36 rounded-full overflow-hidden mb-6 mx-auto border-2 border-black bg-gray-100 flex items-center justify-center">
+                <div className="w-36 h-36 rounded-full overflow-hidden mb-6 mx-auto border border-gray-400 bg-gray-100 flex items-center justify-center">
                   <img src={chrisHeadshot} alt="Christopher Herzog" className="w-full h-full object-cover" />
                 </div>
                 <div>
-                  <h3 className="text-[1rem] mb-1 font-semibold tracking-wide">Christopher Herzog</h3>
-                  <div className="w-10 h-[1px] bg-black mx-auto mb-2"></div>
-                  <p className="text-[0.8125rem] text-gray-700 tracking-wider uppercase font-medium" style={{ letterSpacing: '0.08em' }}>Founder</p>
+                  <h3 className="text-[1rem] mb-1 font-normal tracking-wide">Chris Herzog</h3>
+                  <p className="text-[0.8125rem] text-gray-700 tracking-wider uppercase font-light" style={{ letterSpacing: '0.08em' }}>Founder</p>
+                  <p className="text-[0.8125rem] text-gray-700 tracking-wider uppercase font-light mt-1" style={{ letterSpacing: '0.08em' }}>Chief Executive Officer</p>
                   <a href="https://www.linkedin.com/in/christopherrherzog/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center mt-4 text-gray-500 hover:text-black transition-colors" aria-label="LinkedIn">
                     <LinkedInIcon className="w-4 h-4" />
                   </a>
@@ -502,14 +520,98 @@ export default function App() {
               </div>
 
               <div className="text-center">
-                <div className="w-36 h-36 rounded-full overflow-hidden mb-6 mx-auto border-2 border-black bg-gray-100 flex items-center justify-center">
+                <div className="w-36 h-36 rounded-full overflow-hidden mb-6 mx-auto border border-gray-400 bg-gray-100 flex items-center justify-center">
                   <img src={jazibHeadshot} alt="Jazib Qureshi" className="w-full h-full object-cover" />
                 </div>
                 <div>
-                  <h3 className="text-[1rem] mb-1 font-semibold tracking-wide">Jazib Qureshi</h3>
-                  <div className="w-10 h-[1px] bg-black mx-auto mb-2"></div>
-                  <p className="text-[0.8125rem] text-gray-700 tracking-wider uppercase font-medium" style={{ letterSpacing: '0.08em' }}>Co-Founder</p>
+                  <h3 className="text-[1rem] mb-1 font-normal tracking-wide">Jazib Qureshi</h3>
+                  <p className="text-[0.8125rem] text-gray-700 tracking-wider uppercase font-light" style={{ letterSpacing: '0.08em' }}>Co-Founder</p>
+                  <p className="text-[0.8125rem] text-gray-700 tracking-wider uppercase font-light mt-1" style={{ letterSpacing: '0.08em' }}>Chief Information Security Officer</p>
                   <a href="https://www.linkedin.com/in/jazib-qureshi" target="_blank" rel="noopener noreferrer" className="inline-flex items-center mt-4 text-gray-500 hover:text-black transition-colors" aria-label="LinkedIn">
+                    <LinkedInIcon className="w-4 h-4" />
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <p className="text-[0.8125rem] tracking-wider uppercase text-gray-500 mb-12 font-light text-center" style={{ letterSpacing: '0.12em' }}>
+              Executive Board
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-24 gap-y-14 max-w-[1100px] mx-auto justify-items-center">
+              <div className="text-center">
+                <div className="w-36 h-36 rounded-full overflow-hidden mb-6 mx-auto border border-gray-400 bg-gray-100 flex items-center justify-center">
+                  <span className="text-[1.1rem] font-normal tracking-wide text-gray-500">KG</span>
+                </div>
+                <div>
+                  <h3 className="text-[1rem] mb-1 font-normal tracking-wide">Kellen Gong</h3>
+                  <p className="text-[0.8125rem] text-gray-700 tracking-wider uppercase font-light" style={{ letterSpacing: '0.08em' }}>Chief Data Officer</p>
+                  <p className="text-[0.8125rem] text-gray-700 tracking-wider uppercase font-light mt-1" style={{ letterSpacing: '0.08em' }}>VP of Autonomy</p>
+                  <a href="https://www.linkedin.com/in/kellen-gong/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center mt-4 text-gray-500 hover:text-black transition-colors" aria-label="LinkedIn">
+                    <LinkedInIcon className="w-4 h-4" />
+                  </a>
+                </div>
+              </div>
+
+              <div className="text-center">
+                <div className="w-36 h-36 rounded-full overflow-hidden mb-6 mx-auto border border-gray-400 bg-gray-100 flex items-center justify-center">
+                  <img src={joeHeadshot} alt="Joseph Ahn" className="w-full h-full object-cover object-[center_22%]" />
+                </div>
+                <div>
+                  <h3 className="text-[1rem] mb-1 font-normal tracking-wide">Joseph Ahn</h3>
+                  <p className="text-[0.8125rem] text-gray-700 tracking-wider uppercase font-light" style={{ letterSpacing: '0.08em' }}>Chief Legal Officer</p>
+                  <a href="https://www.linkedin.com/in/joseph-ahn-513a24388/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center mt-4 text-gray-500 hover:text-black transition-colors" aria-label="LinkedIn">
+                    <LinkedInIcon className="w-4 h-4" />
+                  </a>
+                </div>
+              </div>
+
+              <div className="text-center">
+                <div className="w-36 h-36 rounded-full overflow-hidden mb-6 mx-auto border border-gray-400 bg-gray-100 flex items-center justify-center">
+                  <span className="text-[1.1rem] font-normal tracking-wide text-gray-500">AV</span>
+                </div>
+                <div>
+                  <h3 className="text-[1rem] mb-1 font-normal tracking-wide">Abhishek Valuveri</h3>
+                  <p className="text-[0.8125rem] text-gray-700 tracking-wider uppercase font-light" style={{ letterSpacing: '0.08em' }}>Chief Financial Officer</p>
+                  <a href="https://www.linkedin.com/in/abhishekvaluveri/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center mt-4 text-gray-500 hover:text-black transition-colors" aria-label="LinkedIn">
+                    <LinkedInIcon className="w-4 h-4" />
+                  </a>
+                </div>
+              </div>
+
+              <div className="text-center">
+                <div className="w-36 h-36 rounded-full overflow-hidden mb-6 mx-auto border border-gray-400 bg-gray-100 flex items-center justify-center">
+                  <img src={abdallahHeadshot} alt="Abdallah Elkamash" className="w-full h-full object-cover" />
+                </div>
+                <div>
+                  <h3 className="text-[1rem] mb-1 font-normal tracking-wide">Abdallah Elkamash</h3>
+                  <p className="text-[0.8125rem] text-gray-700 tracking-wider uppercase font-light" style={{ letterSpacing: '0.08em' }}>Chief Biotech Officer</p>
+                  <a href="https://www.linkedin.com/in/abdallah-elkamash-6195112bb/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center mt-4 text-gray-500 hover:text-black transition-colors" aria-label="LinkedIn">
+                    <LinkedInIcon className="w-4 h-4" />
+                  </a>
+                </div>
+              </div>
+
+              <div className="text-center">
+                <div className="w-36 h-36 rounded-full overflow-hidden mb-6 mx-auto border border-gray-400 bg-gray-100 flex items-center justify-center">
+                  <span className="text-[1.1rem] font-normal tracking-wide text-gray-500">AG</span>
+                </div>
+                <div>
+                  <h3 className="text-[1rem] mb-1 font-normal tracking-wide">Aarsha Guda</h3>
+                  <p className="text-[0.8125rem] text-gray-700 tracking-wider uppercase font-light" style={{ letterSpacing: '0.08em' }}>Chief Medical Officer</p>
+                  <a href="https://www.linkedin.com/in/aarshaguda/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center mt-4 text-gray-500 hover:text-black transition-colors" aria-label="LinkedIn">
+                    <LinkedInIcon className="w-4 h-4" />
+                  </a>
+                </div>
+              </div>
+
+              <div className="text-center">
+                <div className="w-36 h-36 rounded-full overflow-hidden mb-6 mx-auto border border-gray-400 bg-gray-100 flex items-center justify-center">
+                  <span className="text-[1.1rem] font-normal tracking-wide text-gray-500">MK</span>
+                </div>
+                <div>
+                  <h3 className="text-[1rem] mb-1 font-normal tracking-wide">Maaz Kheiri</h3>
+                  <p className="text-[0.8125rem] text-gray-700 tracking-wider uppercase font-light" style={{ letterSpacing: '0.08em' }}>Chief Scientific Officer</p>
+                  <a href="https://www.linkedin.com/in/maaz-kheiri-6b9b23293/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center mt-4 text-gray-500 hover:text-black transition-colors" aria-label="LinkedIn">
                     <LinkedInIcon className="w-4 h-4" />
                   </a>
                 </div>
