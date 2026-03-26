@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { TrendingUp, Users, ChartBar, Mail, Link2, Network, Cpu, Linkedin as LinkedInIcon } from 'lucide-react';
+import HiringPage from './HiringPage';
 
 const logo = new URL('../assets/a632f2d0f30846efa3dc5e98eb742cff439a1307.png', import.meta.url).href
 const adiHeadshot = new URL('../assets/7745adcfbc153ff7d293317a0e32eb66a8b457b6.png', import.meta.url).href
@@ -16,7 +17,7 @@ const iconCircle = new URL('../assets/Circle.png', import.meta.url).href
 const iconSolana = new URL('../assets/Solana.png', import.meta.url).href
 const iconBase = new URL('../assets/Base.png', import.meta.url).href
 
-type Page = 'home' | 'projects' | 'research' | 'team'
+type Page = 'home' | 'projects' | 'research' | 'team' | 'hiring'
 type Badge = { letter: string; label: string; icon?: string }
 type Project = {
   name: string
@@ -33,15 +34,45 @@ const navItems: { label: string; key: Page }[] = [
   { label: 'Projects', key: 'projects' },
   { label: 'Research', key: 'research' },
   { label: 'Team', key: 'team' },
+  { label: 'Hiring', key: 'hiring' },
 ]
+
+function getPageFromPath(pathname: string): Page {
+  const cleaned = pathname.replace(/\/+$/, '')
+  if (cleaned === '' || cleaned === '/') return 'home'
+  if (cleaned === '/projects') return 'projects'
+  if (cleaned === '/research') return 'research'
+  if (cleaned === '/team') return 'team'
+  if (cleaned === '/hiring') return 'hiring'
+  return 'home'
+}
 
 export default function App() {
   const [openPaper, setOpenPaper] = React.useState<null | 'stablecoins' | 'dogecoin'>(null)
-  const [currentPage, setCurrentPage] = React.useState<Page>('home')
+  const [currentPage, setCurrentPage] = React.useState<Page>(() => {
+    if (typeof window === 'undefined') return 'home'
+    return getPageFromPath(window.location.pathname)
+  })
 
   React.useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }, [currentPage])
+
+  React.useEffect(() => {
+    const onPopState = () => {
+      setCurrentPage(getPageFromPath(window.location.pathname))
+    }
+    window.addEventListener('popstate', onPopState)
+    return () => window.removeEventListener('popstate', onPopState)
+  }, [])
+
+  const navigateTo = React.useCallback((page: Page) => {
+    setCurrentPage(page)
+    const url = page === 'home' ? '/' : `/${page}`
+    if (typeof window !== 'undefined') {
+      window.history.pushState({}, '', url)
+    }
+  }, [])
 
   const projects: Project[] = [
     {
@@ -153,7 +184,7 @@ export default function App() {
       <header className="border-b border-gray-200 sticky top-0 bg-white z-40">
         <div className="max-w-[1400px] mx-auto px-12 py-5">
           <div className="flex items-center justify-between">
-            <button type="button" onClick={() => setCurrentPage('home')}>
+            <button type="button" onClick={() => navigateTo('home')}>
               <img src={logo} alt="CJA Capital Group" className="h-12" />
             </button>
 
@@ -165,7 +196,7 @@ export default function App() {
                   <button
                     key={key}
                     type="button"
-                    onClick={() => setCurrentPage(key)}
+                    onClick={() => navigateTo(key)}
                     className="relative group text-[0.8125rem] tracking-wider uppercase font-medium pb-1"
                     style={{ letterSpacing: '0.1em' }}
                   >
@@ -620,6 +651,9 @@ export default function App() {
           </div>
         </section>
       )}
+
+      {/* ── HIRING ── */}
+      {currentPage === 'hiring' && <HiringPage />}
 
       {/* Footer — always visible */}
       <footer className="border-t border-gray-200">
