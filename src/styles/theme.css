@@ -124,6 +124,35 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+/* Subtle blueprint grid (page sections) */
+.cja-grid-canvas {
+  background-color: #fafafa;
+  background-image:
+    linear-gradient(to right, rgb(0 0 0 / 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(0 0 0 / 0.045) 1px, transparent 1px);
+  background-size: 56px 56px;
+  background-position: center top;
+}
+
+.cja-marquee-track {
+  animation: cja-marquee 38s linear infinite;
+}
+
+@keyframes cja-marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cja-marquee-track {
+    animation: none;
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
