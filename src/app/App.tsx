@@ -35,12 +35,16 @@ type ProjectLink = { label: string; href: string }
 type Project = {
   name: string
   body1: string
-  body2: string
+  body2?: string
   badges: Badge[]
   image?: string
   imageAlt?: string
+  /** `logo` = tiny icon; `square` = fixed square tile; `full` = screenshot-style hero. */
+  imagePresentation?: 'full' | 'logo' | 'square'
   winnings?: number
   links?: ProjectLink[]
+  /** Image left, copy right on `lg` (default is copy left, image right). */
+  layoutFlip?: boolean
 }
 
 const navItems: { label: string; key: Page }[] = [
@@ -67,6 +71,15 @@ const pageFadeIn = {
   animate: { opacity: 1, y: 0 },
   transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const },
 }
+
+/** Opacity-only: avoids transform on the whole section fighting layout (e.g. projects hero + stats). */
+const pageFadeInNoShift = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1 },
+  transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const },
+}
+
+const HACKATHON_WINNINGS_COUNTUP_SESSION_KEY = 'cja-hackathon-winnings-countup-done'
 
 function Eyebrow({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return (
@@ -119,6 +132,7 @@ export default function App() {
       links: [
         { label: 'Demo', href: 'https://stake-clash.vercel.app/' },
         { label: 'Devfolio', href: 'https://devfolio.co/projects/stake-clash-84f4' },
+        { label: 'GitHub', href: 'https://github.com/jazibrq/StakeClash' },
       ],
     },
     {
@@ -134,11 +148,28 @@ export default function App() {
       winnings: 3500,
       image: winningPhoto,
       imageAlt: 'CJA Capital Group winning at University Blockchain Conference',
+      layoutFlip: true,
       links: [
         {
           label: 'Devpost',
           href: 'https://devpost.com/software/hypersphere?ref_content=user-portfolio&ref_feature=in_progress',
         },
+        { label: 'GitHub', href: 'https://github.com/adichaudhary/hypersphere' },
+      ],
+    },
+    {
+      name: 'hiero-schedule',
+      body1:
+        'A library that makes it easy to create and monitor Hedera scheduled transactions. Available as a CLI plugin, Node.js SDK, or browser module.',
+      body2: 'Submitted to the Hello Future Apex Hackathon.',
+      badges: [{ letter: 'H', label: 'Hedera', icon: iconHedera }] as Badge[],
+      /* Bump ?v= when replacing public/hiero.png so browsers pick up the new file. */
+      image: '/hiero.png?v=20260327',
+      imageAlt: 'Hiero',
+      imagePresentation: 'square',
+      links: [
+        { label: 'Demo', href: 'https://hiero-schedule.vercel.app/' },
+        { label: 'GitHub', href: 'https://github.com/adichaudhary/hiero-schedule-cli' },
       ],
     },
   ]
@@ -151,17 +182,34 @@ export default function App() {
   const [winningsDisplay, setWinningsDisplay] = React.useState(0)
 
   React.useEffect(() => {
-    if (currentPage !== 'projects') {
-      setWinningsDisplay(0)
-      return
-    }
+    if (currentPage !== 'projects') return
+
     const target = totalHackathonWinnings
     const reduceMotion =
       typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (reduceMotion) {
+
+    const alreadyDone = (() => {
+      try {
+        return sessionStorage.getItem(HACKATHON_WINNINGS_COUNTUP_SESSION_KEY) === '1'
+      } catch {
+        return false
+      }
+    })()
+
+    const markDone = () => {
+      try {
+        sessionStorage.setItem(HACKATHON_WINNINGS_COUNTUP_SESSION_KEY, '1')
+      } catch {
+        /* ignore */
+      }
+    }
+
+    if (reduceMotion || alreadyDone) {
       setWinningsDisplay(target)
+      if (reduceMotion) markDone()
       return
     }
+
     setWinningsDisplay(0)
     const controls = animate(0, target, {
       duration: 2.55,
@@ -172,6 +220,7 @@ export default function App() {
       },
     })
     void controls.finished.then(() => {
+      markDone()
       setWinningsDisplay(target)
     })
     return () => controls.stop()
@@ -630,37 +679,39 @@ export default function App() {
 
       {/* ── PROJECTS ── */}
       {currentPage === 'projects' && (
-        <motion.section className="relative border-t border-neutral-200/80 bg-white" {...pageFadeIn}>
-          <div className="absolute inset-x-0 top-0 h-72 cja-grid-canvas opacity-50 pointer-events-none" />
-          <div className="relative max-w-6xl mx-auto px-5 sm:px-8 lg:px-10 pt-16 pb-24 lg:pb-32">
-            <div className="max-w-3xl">
-              <Eyebrow>Projects</Eyebrow>
-              <h1 className="font-serif text-[clamp(2.5rem,6vw,3.75rem)] leading-[1.05] text-neutral-950 tracking-tight">
-                From idea to execution.
-              </h1>
-            </div>
-            <p className="mt-6 text-lg text-neutral-600 lg:whitespace-nowrap">
-              Prize-winning systems built at the intersection of settlement, UX, and protocol design.
-            </p>
+        <motion.section className="relative overflow-x-clip border-t border-neutral-200/80 bg-white" {...pageFadeInNoShift}>
+          <div className="absolute inset-x-0 top-0 z-0 h-56 sm:h-64 cja-grid-canvas opacity-50 pointer-events-none" />
+          <div className="relative z-10 max-w-6xl mx-auto px-5 sm:px-8 lg:px-10 pt-16 pb-24 lg:pb-32">
+            <div className="flex flex-col gap-16 lg:gap-20">
+              <div className="max-w-3xl w-full min-w-0 space-y-5">
+                <Eyebrow>Projects</Eyebrow>
+                <h1 className="font-serif text-[clamp(2.5rem,6vw,3.75rem)] leading-[1.05] text-neutral-950 tracking-tight">
+                  From idea to execution.
+                </h1>
+                <p className="text-lg text-neutral-600 text-pretty">
+                  Prize-winning systems built at the intersection of settlement, UX, and protocol design.
+                </p>
+              </div>
 
-            <div className="mt-12 lg:mt-16 mb-16 lg:mb-20 rounded-3xl border border-neutral-200/90 bg-neutral-950 text-white p-10 lg:p-12 relative overflow-hidden">
-              <div
-                className="pointer-events-none absolute inset-0 opacity-[0.12]"
-                style={{
-                  backgroundImage:
-                    'linear-gradient(to right, rgba(255,255,255,0.4) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.4) 1px, transparent 1px)',
-                  backgroundSize: '40px 40px',
-                }}
-              />
-              <p className="font-mono-cja text-[0.65rem] uppercase tracking-[0.2em] text-neutral-400 relative">
-                Total hackathon winnings
-              </p>
-              <p className="relative font-serif text-[clamp(3rem,12vw,5.5rem)] leading-none mt-4 tabular-nums">
-                ${winningsDisplay.toLocaleString()}
-              </p>
+              <div className="rounded-3xl border border-neutral-200/90 bg-neutral-950 text-white px-8 py-9 sm:px-10 sm:py-10 lg:px-12 lg:py-11 relative overflow-hidden shrink-0 isolate w-full max-w-full">
+                <div
+                  className="pointer-events-none absolute inset-0 opacity-[0.12]"
+                  style={{
+                    backgroundImage:
+                      'linear-gradient(to right, rgba(255,255,255,0.4) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.4) 1px, transparent 1px)',
+                    backgroundSize: '40px 40px',
+                  }}
+                />
+                <p className="font-mono-cja text-[0.65rem] uppercase tracking-[0.2em] text-neutral-400 relative z-[1] pr-4">
+                  Total hackathon winnings
+                </p>
+                <p className="relative z-[1] font-serif text-[clamp(2.5rem,10vw,4.25rem)] sm:text-[clamp(3rem,11vw,5rem)] leading-[1.02] mt-5 tabular-nums">
+                  ${winningsDisplay.toLocaleString()}
+                </p>
+              </div>
             </div>
 
-            <div className="grid gap-10 lg:gap-14">
+            <div className="mt-16 lg:mt-20 grid gap-10 lg:gap-14 min-w-0">
               {projects.map((project, i) => (
                 <motion.article
                   key={project.name}
@@ -674,7 +725,12 @@ export default function App() {
                   whileHover={{ y: -4, boxShadow: '0 24px 60px -24px rgba(0,0,0,0.22)' }}
                 >
                   <div className="grid lg:grid-cols-2 gap-0">
-                    <div className="p-8 lg:p-10 lg:pr-8 flex flex-col justify-center order-2 lg:order-1">
+                    <div
+                      className={[
+                        'p-8 lg:p-10 flex flex-col justify-center order-2',
+                        project.layoutFlip ? 'lg:order-2 lg:pl-8' : 'lg:order-1 lg:pr-8',
+                      ].join(' ')}
+                    >
                       <div className="flex flex-wrap gap-2 mb-6">
                         {project.badges.map((b) => (
                           <span
@@ -699,7 +755,9 @@ export default function App() {
                         {project.name}
                       </h2>
                       <p className="mt-5 text-[1.0625rem] leading-relaxed text-neutral-700">{project.body1}</p>
-                      <p className="mt-4 text-[0.9375rem] leading-relaxed text-neutral-500">{project.body2}</p>
+                      {project.body2 ? (
+                        <p className="mt-4 text-[0.9375rem] leading-relaxed text-neutral-500">{project.body2}</p>
+                      ) : null}
                       {project.links?.length ? (
                         <div className="mt-8 flex flex-wrap gap-3">
                           {project.links.map((link) => (
@@ -719,13 +777,38 @@ export default function App() {
                         </div>
                       ) : null}
                     </div>
-                    <div className="order-1 lg:order-2 flex min-h-[260px] items-center justify-center bg-neutral-100 border-b lg:border-b-0 lg:border-l border-neutral-200/90 p-6 sm:p-8 lg:min-h-full lg:py-10">
+                    <div
+                      className={[
+                        'order-1 flex items-center justify-center bg-neutral-100 border-b lg:border-b-0 border-neutral-200/90 p-6 sm:p-8',
+                        project.layoutFlip ? 'lg:order-1 lg:border-r' : 'lg:order-2 lg:border-l',
+                        project.imagePresentation === 'logo'
+                          ? 'min-h-[200px] lg:min-h-[280px] lg:py-10'
+                          : 'min-h-[260px] lg:min-h-full lg:py-10',
+                      ].join(' ')}
+                    >
                       {project.image ? (
-                        <img
-                          src={project.image}
-                          alt={project.imageAlt ?? ''}
-                          className="w-full max-w-full object-contain object-center max-h-[min(68vh,520px)] lg:max-h-[min(78vh,680px)]"
-                        />
+                        project.imagePresentation === 'square' ? (
+                          <div className="flex w-full max-w-full items-center justify-center px-2 sm:px-4">
+                            <div className="w-full max-w-[min(100%,clamp(12rem,42vw,22rem))] lg:max-w-[min(100%,clamp(14rem,38vw,26rem))] rounded-2xl border border-neutral-200/90 bg-white p-4 sm:p-5 lg:p-6 shadow-[0_1px_0_rgba(0,0,0,0.04)]">
+                              <img
+                                src={project.image}
+                                alt={project.imageAlt ?? ''}
+                                className="mx-auto h-auto w-full max-h-[min(28vh,11rem)] sm:max-h-[min(32vh,13rem)] lg:max-h-[min(36vh,15rem)] object-contain object-center"
+                              />
+                            </div>
+                          </div>
+                        ) : (
+                          <img
+                            src={project.image}
+                            alt={project.imageAlt ?? ''}
+                            className={[
+                              'object-contain object-center',
+                              project.imagePresentation === 'logo'
+                                ? 'w-auto max-h-24 sm:max-h-28 max-w-[min(70vw,200px)]'
+                                : 'w-full max-w-full max-h-[min(68vh,520px)] lg:max-h-[min(78vh,680px)]',
+                            ].join(' ')}
+                          />
+                        )
                       ) : null}
                     </div>
                   </div>
