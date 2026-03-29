@@ -3,6 +3,7 @@ import { motion, animate } from 'motion/react'
 import {
   TrendingUp,
   Users,
+  UserRound,
   ChartBar,
   Link2,
   Mail,
@@ -27,6 +28,11 @@ const iconETH = new URL('../assets/ETH.png', import.meta.url).href
 const iconCircle = new URL('../assets/Circle.png', import.meta.url).href
 const iconSolana = new URL('../assets/Solana.png', import.meta.url).href
 const iconBase = new URL('../assets/Base.png', import.meta.url).href
+
+const iconDogecoin = 'https://assets.coingecko.com/coins/images/5/small/dogecoin.png'
+/** Maple Finance (SYRUP) — CoinGecko `syrup` listing */
+const iconSyrup =
+  'https://coin-images.coingecko.com/coins/images/51232/small/_syrup_token_logo.png?1747292046'
 
 type Page = 'home' | 'projects' | 'research' | 'team'
 type Badge = { letter: string; label: string; icon?: string }
@@ -61,6 +67,7 @@ const partnerStrip = [
   { src: iconCircle, label: 'Circle' },
   { src: iconSolana, label: 'Solana' },
   { src: iconBase, label: 'Base' },
+  { src: '/poly.png', label: 'Polymarket' },
 ]
 
 const motionHover = { y: -3, transition: { type: 'spring', stiffness: 420, damping: 28 } }
@@ -91,13 +98,29 @@ function Eyebrow({ children, className = '' }: { children: React.ReactNode; clas
   )
 }
 
-function PartnerMarqueeItems() {
+function TeamPlaceholderAvatar() {
+  return (
+    <div
+      className="flex h-full w-full items-center justify-center bg-gradient-to-b from-neutral-200 to-neutral-300 text-neutral-500/70"
+      aria-hidden
+    >
+      <UserRound className="size-[3.25rem] shrink-0 opacity-85" strokeWidth={1.35} />
+    </div>
+  )
+}
+
+function PartnerMarqueeItems({ segment }: { segment: 'a' | 'b' }) {
   return (
     <>
       {partnerStrip.map((p) => (
-        <div key={p.label} className="flex items-center gap-3 text-neutral-500 shrink-0">
+        <div key={`${segment}-${p.label}`} className="flex items-center gap-3 text-neutral-500 shrink-0">
           <div className="size-10 rounded-xl border border-neutral-200 bg-neutral-50 flex items-center justify-center overflow-hidden">
-            <img src={p.src} alt="" className="size-7 object-contain" />
+            {/* Background layers decode/paint reliably during translate; <img> in marquee was flaky (WebKit / lazy edge cases). */}
+            <span
+              className="block size-7 shrink-0 bg-contain bg-center bg-no-repeat [transform:translateZ(0)]"
+              style={{ backgroundImage: `url(${JSON.stringify(p.src)})` }}
+              aria-hidden
+            />
           </div>
           <span className="text-sm font-medium text-neutral-700 whitespace-nowrap">{p.label}</span>
         </div>
@@ -107,7 +130,7 @@ function PartnerMarqueeItems() {
 }
 
 export default function App() {
-  const [openPaper, setOpenPaper] = React.useState<null | 'stablecoins' | 'dogecoin'>(null)
+  const [openPaper, setOpenPaper] = React.useState<null | 'stablecoins' | 'dogecoin' | 'maple'>(null)
   const [currentPage, setCurrentPage] = React.useState<Page>('home')
 
   React.useEffect(() => {
@@ -171,6 +194,29 @@ export default function App() {
         { label: 'Demo', href: 'https://hiero-schedule.vercel.app/' },
         { label: 'GitHub', href: 'https://github.com/adichaudhary/hiero-schedule-cli' },
       ],
+    },
+    {
+      name: 'Paragon',
+      body1:
+        'A Polymarket interface for real-time data across active prediction markets, surfacing live order books and trading activity with a dynamic AI flowchart system.',
+      badges: [{ letter: 'P', label: 'Polymarket', icon: '/poly.png' }] as Badge[],
+      image: '/paragon.png',
+      imageAlt: 'Paragon',
+      imagePresentation: 'square',
+      layoutFlip: true,
+      links: [
+        { label: 'Demo', href: 'https://paragon-cyan.vercel.app/' },
+        { label: 'GitHub', href: 'https://github.com/Jazib225/Paragon' },
+      ],
+    },
+    {
+      name: 'Tokenized Platforms & Games',
+      body1:
+        'A wallet-connected competitive game and an on-chain self-distributing token economy using SPL tokenization, with an emphasis on scalable tokenomics, automated rewards, and off-chain integrations.',
+      badges: [{ letter: 'S', label: 'Solana', icon: iconSolana }] as Badge[],
+      image: '/game.png',
+      imageAlt: 'Tokenized platforms and games',
+      imagePresentation: 'square',
     },
   ]
 
@@ -238,6 +284,12 @@ export default function App() {
       return {
         title: 'Dogecoin (DOGE): Shorting an Inflationary Meme Asset in Structural Decline',
         href: '/pdfs/dogecoin-shorting-thesis.pdf',
+      }
+    }
+    if (openPaper === 'maple') {
+      return {
+        title: 'Maple Finance Investment Thesis',
+        href: '/pdfs/Maple_Investment_Thesis.pdf',
       }
     }
     return null
@@ -315,7 +367,15 @@ export default function App() {
             whileHover={{ scale: 1.02 }}
             whileTap={motionTap}
           >
-            <img src={logo} alt="CJA Capital Group" className="h-10 sm:h-11 w-auto" />
+            <img
+              src={logo}
+              alt="CJA Capital Group"
+              className={
+                currentPage === 'home'
+                  ? 'h-9 sm:h-[2.475rem] w-auto'
+                  : 'h-10 sm:h-11 w-auto'
+              }
+            />
           </motion.button>
 
           <nav className="col-start-2 row-start-1 hidden md:flex items-center justify-center justify-self-center gap-1 lg:gap-2">
@@ -385,7 +445,8 @@ export default function App() {
 
       {/* ── HOMEPAGE ── */}
       {currentPage === 'home' && (
-        <motion.div className="min-w-0" {...pageFadeIn}>
+        <>
+          <motion.div className="min-w-0" {...pageFadeIn}>
           <section className="relative overflow-hidden">
             <div className="absolute inset-0 cja-grid-canvas opacity-60 pointer-events-none" />
             <div className="relative max-w-6xl mx-auto px-5 sm:px-8 lg:px-10 pt-12 sm:pt-16 pb-12 sm:pb-14 text-center">
@@ -401,20 +462,26 @@ export default function App() {
                 </span>
               </motion.div>
 
-              <motion.h1
+              <motion.div
                 initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.05 }}
-                className="font-serif text-neutral-950 max-w-4xl mx-auto"
+                className="w-full max-w-6xl mx-auto"
               >
-                <span className="block text-[clamp(1.75rem,4.5vw,2.75rem)] leading-tight mb-2">CJA Capital Group</span>
-                <span className="block text-[clamp(2.75rem,8vw,4.75rem)] leading-[0.98] tracking-tight">
-                  Build at the frontier of Web3.
-                </span>
-                <span className="block text-[clamp(2.75rem,8vw,4.75rem)] leading-[0.98] tracking-tight mt-1 sm:mt-1.5">
-                  <span className="italic font-normal text-neutral-800">DeFi, DePIN, DeAI.</span>
-                </span>
-              </motion.h1>
+                <img
+                  src="/banner.png"
+                  alt="CJA Capital Group"
+                  className="block w-full max-w-full mx-auto mb-1 sm:mb-1.5 h-auto max-h-[5.4rem] sm:max-h-[7.2rem] md:max-h-[8.4rem] object-contain object-center"
+                />
+                <h1 className="font-serif text-neutral-950 max-w-4xl mx-auto">
+                  <span className="block text-[clamp(2.75rem,8vw,4.75rem)] leading-[0.98] tracking-tight">
+                    Build at the frontier of Web3.
+                  </span>
+                  <span className="block text-[clamp(2.75rem,8vw,4.75rem)] leading-[0.98] tracking-tight mt-1 sm:mt-1.5">
+                    <span className="italic font-normal text-neutral-800">DeFi, DePIN, DeAI.</span>
+                  </span>
+                </h1>
+              </motion.div>
 
               <motion.p
                 initial={{ opacity: 0, y: 12 }}
@@ -454,8 +521,9 @@ export default function App() {
               </motion.div>
             </div>
           </section>
+          </motion.div>
 
-          {/* Partner strip — two identical segments so -50% translate loops seamlessly */}
+          {/* Partner strip: outside hero motion (avoids nested transform + img paint bugs); two segments for seamless -50% loop */}
           <section className="border-y border-neutral-200/80 bg-white py-5 sm:py-6">
             <p className="text-center font-mono-cja text-[0.65rem] uppercase tracking-[0.2em] text-neutral-400 mb-3 px-4">
               Networks &amp; rails we ship on
@@ -463,15 +531,16 @@ export default function App() {
             <div className="w-full min-w-0 overflow-hidden">
               <div className="flex w-max cja-marquee-track items-center">
                 <div className="flex items-center gap-12 sm:gap-16 pr-12 sm:pr-16 shrink-0">
-                  <PartnerMarqueeItems />
+                  <PartnerMarqueeItems segment="a" />
                 </div>
                 <div className="flex items-center gap-12 sm:gap-16 pr-12 sm:pr-16 shrink-0" aria-hidden>
-                  <PartnerMarqueeItems />
+                  <PartnerMarqueeItems segment="b" />
                 </div>
               </div>
             </div>
           </section>
 
+          <motion.div className="min-w-0" {...pageFadeInNoShift}>
           {/* About — Divisions */}
           <section className="cja-grid-canvas border-b border-neutral-200/80">
             <div className="max-w-6xl mx-auto px-5 sm:px-8 lg:px-10 py-10 lg:py-12">
@@ -484,7 +553,7 @@ export default function App() {
                   {
                     Icon: Link2,
                     title: 'Chain',
-                    body: 'Smart contract development and on-chain protocol engineering across EVM and non-EVM ecosystems',
+                    body: 'Smart contract development and on-chain protocol engineering across ecosystems',
                   },
                   {
                     Icon: Network,
@@ -517,38 +586,38 @@ export default function App() {
             </div>
           </section>
 
-          {/* Goals */}
+          {/* Accomplishments */}
           <section className="bg-neutral-50 border-b border-neutral-200/80">
             <div className="max-w-6xl mx-auto px-5 sm:px-8 lg:px-10 py-10 lg:py-12">
-              <Eyebrow>Goals</Eyebrow>
+              <Eyebrow>Accomplishments</Eyebrow>
               <h2 className="font-serif text-[clamp(2rem,5vw,3rem)] leading-tight text-neutral-950 max-w-3xl mb-6">
-                What we do.
+                What we&apos;ve done.
               </h2>
               <div className="grid md:grid-cols-3 gap-3 lg:gap-4">
                 {[
                   {
                     Icon: TrendingUp,
                     title: 'Proprietary Trading & Research',
-                    body: 'Data-driven strategies across crypto spot and derivatives markets',
+                    body: 'Scaled $50 of personal capital into a six-figure portfolio using data-driven strategies across crypto spot and derivatives markets',
                   },
                   {
                     Icon: Users,
                     title: 'Mentorship & Education',
-                    body: 'Guided student traders through structured research and risk frameworks',
+                    body: 'Mentored 10+ student traders, guiding structured research and risk frameworks with documented portfolio growth',
                   },
                   {
                     Icon: ChartBar,
                     title: 'Onchain Infrastructure',
-                    body: 'Built experimental payment and settlement primitives using blockchain rails',
+                    body: 'Built and shipped production-ready payment and settlement primitives using blockchain rails',
                   },
                 ].map(({ Icon, title, body }) => (
                   <motion.article
                     key={title}
-                    className="group rounded-2xl border border-neutral-200/90 bg-white p-5 sm:p-6 text-center hover:border-neutral-300 hover:shadow-lg hover:shadow-neutral-900/5 transition-all"
+                    className="group rounded-2xl border border-neutral-200/90 bg-white/80 p-5 sm:p-6 text-center shadow-[0_1px_0_rgba(0,0,0,0.04)] hover:shadow-[0_20px_50px_-28px_rgba(0,0,0,0.35)] hover:border-neutral-300 transition-shadow"
                     whileHover={motionHover}
                   >
                     <div className="mb-3 flex justify-center">
-                      <div className="inline-flex rounded-xl border border-neutral-200 bg-neutral-50 p-2.5 text-neutral-900">
+                      <div className="inline-flex rounded-xl border border-neutral-200 bg-neutral-50 p-2.5 text-neutral-900 group-hover:border-neutral-300 transition-colors">
                         <Icon className="size-6" strokeWidth={1.35} />
                       </div>
                     </div>
@@ -576,8 +645,8 @@ export default function App() {
               <div className="relative grid grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-6 lg:gap-x-4 lg:gap-y-5 text-center">
                 {[
                   { value: `$${totalHackathonWinnings.toLocaleString()}`, label: 'Total hackathon winnings' },
-                  { value: `${projects.length}`, label: 'Flagship builds' },
-                  { value: '2', label: 'Research papers' },
+                  { value: '5+', label: 'Flagship builds' },
+                  { value: '3', label: 'Research papers' },
                   { value: '15+', label: 'Members' },
                 ].map((row) => (
                   <div key={row.label}>
@@ -586,35 +655,6 @@ export default function App() {
                       {row.label}
                     </p>
                   </div>
-                ))}
-              </div>
-            </div>
-          </section>
-
-          {/* Accomplishments */}
-          <section className="max-w-6xl mx-auto px-5 sm:px-8 lg:px-10 py-10 lg:py-12">
-            <div className="grid lg:grid-cols-12 gap-6 lg:gap-8 items-start">
-              <div className="lg:col-span-4 text-center lg:text-left">
-                <Eyebrow>Accomplishments</Eyebrow>
-                <h2 className="font-serif text-[clamp(1.75rem,4vw,2.5rem)] leading-tight text-neutral-950">
-                  Proof of work.
-                </h2>
-                <div className="mt-4 h-px w-16 bg-neutral-300 mx-auto lg:mx-0" />
-              </div>
-              <div className="lg:col-span-8 space-y-2">
-                {[
-                  'Scaled $50 of personal capital into a six-figure portfolio using crypto markets',
-                  'Mentored 10+ students achieving documented portfolio growth',
-                  'Designed custom trading strategies using blockchain analytics and market research',
-                  'Built and shipped production-ready crypto infrastructure',
-                ].map((text) => (
-                  <motion.div
-                    key={text}
-                    className="rounded-2xl border border-neutral-200/90 bg-neutral-50/50 px-5 py-3.5 pl-5 border-l-4 border-l-neutral-950 hover:bg-white hover:shadow-md transition-all"
-                    whileHover={{ x: 4 }}
-                  >
-                    <p className="text-[1rem] leading-relaxed text-neutral-800">{text}</p>
-                  </motion.div>
                 ))}
               </div>
             </div>
@@ -674,7 +714,8 @@ export default function App() {
               </div>
             </div>
           </section>
-        </motion.div>
+          </motion.div>
+        </>
       )}
 
       {/* ── PROJECTS ── */}
@@ -738,7 +779,15 @@ export default function App() {
                             className="inline-flex items-center gap-1.5 rounded-full border border-neutral-200 bg-neutral-50 px-3 py-1 text-xs font-medium text-neutral-700"
                           >
                             {b.icon ? (
-                              <img src={b.icon} alt="" className="size-4 object-contain" />
+                              <img
+                                src={b.icon}
+                                alt=""
+                                width={16}
+                                height={16}
+                                loading="eager"
+                                decoding="async"
+                                className="size-4 object-contain"
+                              />
                             ) : (
                               <span className="font-semibold">{b.letter}</span>
                             )}
@@ -793,6 +842,8 @@ export default function App() {
                               <img
                                 src={project.image}
                                 alt={project.imageAlt ?? ''}
+                                loading="eager"
+                                decoding="async"
                                 className="mx-auto h-auto w-full max-h-[min(28vh,11rem)] sm:max-h-[min(32vh,13rem)] lg:max-h-[min(36vh,15rem)] object-contain object-center"
                               />
                             </div>
@@ -801,6 +852,8 @@ export default function App() {
                           <img
                             src={project.image}
                             alt={project.imageAlt ?? ''}
+                            loading="eager"
+                            decoding="async"
                             className={[
                               'object-contain object-center',
                               project.imagePresentation === 'logo'
@@ -832,17 +885,55 @@ export default function App() {
 
             <div className="grid md:grid-cols-2 gap-4 lg:gap-6">
               <motion.article
+                className="md:col-span-2 flex h-full min-h-0 flex-col rounded-3xl border border-neutral-200/90 bg-neutral-50/40 p-5 sm:p-6 lg:p-8 hover:bg-white hover:shadow-xl hover:shadow-neutral-900/[0.06] transition-all"
+                whileHover={{ y: -4 }}
+              >
+                <div className="flex min-h-0 flex-1 flex-col">
+                  <p className="font-mono-cja text-[0.65rem] uppercase tracking-[0.16em] text-neutral-500">
+                    Finalist · Penn Blockchain Conference
+                  </p>
+                  <div className="mt-3 mb-1 inline-flex size-11 shrink-0 items-center justify-center rounded-xl border border-neutral-200 bg-white p-1.5 shadow-[0_1px_0_rgba(0,0,0,0.04)]">
+                    <img src={iconSyrup} alt="" className="size-7 object-contain" />
+                  </div>
+                  <h2 className="mt-2 font-serif text-[clamp(1.5rem,4vw,2rem)] leading-snug text-neutral-950 tracking-tight">
+                    Maple Finance Investment Thesis
+                  </h2>
+                  <p className="mt-2 text-[0.75rem] text-neutral-400">
+                    Track: Long Investment Thesis &lt; $1B FDV
+                  </p>
+                  <p className="mt-4 text-[0.9375rem] leading-relaxed text-neutral-600 max-w-4xl">
+                    Maple has evolved into a revenue-generating on-chain asset manager, but the market still values it based on its outdated reputation. As adoption of its yield products grows, SYRUP appears undervalued relative to its actual role and trajectory.
+                  </p>
+                </div>
+                <div className="mt-8 shrink-0 border-t border-neutral-200/90 pt-4">
+                  <button
+                    type="button"
+                    onClick={() => setOpenPaper('maple')}
+                    className="inline-flex items-center gap-2 rounded-full border border-neutral-300 bg-white px-5 py-2 text-sm font-semibold text-neutral-950 hover:border-neutral-950 hover:bg-neutral-950 hover:text-white transition-colors group/read"
+                  >
+                    Read
+                    <span className="inline-block transition-transform group-hover/read:translate-x-1">→</span>
+                  </button>
+                </div>
+              </motion.article>
+
+              <motion.article
                 className="flex h-full min-h-0 flex-col rounded-3xl border border-neutral-200/90 bg-neutral-50/40 p-5 sm:p-6 hover:bg-white hover:shadow-xl hover:shadow-neutral-900/[0.06] transition-all"
                 whileHover={{ y: -4 }}
               >
-                <h2 className="font-serif text-[1.65rem] leading-snug text-neutral-950 tracking-tight">
-                  Stablecoins Explained: Why Crypto Needs a Dollar Twin
-                </h2>
-                <p className="mt-3 text-[0.9375rem] leading-relaxed text-neutral-600">
-                  An overview of stablecoins as critical financial infrastructure, examining their role in liquidity, settlement
-                  efficiency, and onchain dollarization.
-                </p>
-                <div className="mt-auto shrink-0 border-t border-neutral-200/90 pt-3">
+                <div className="flex min-h-0 flex-1 flex-col">
+                  <div className="mb-4 inline-flex size-11 shrink-0 items-center justify-center rounded-xl border border-neutral-200 bg-white p-1.5 shadow-[0_1px_0_rgba(0,0,0,0.04)]">
+                    <img src={iconUSDC} alt="" className="size-7 object-contain" />
+                  </div>
+                  <h2 className="font-serif text-[1.65rem] leading-snug text-neutral-950 tracking-tight">
+                    Stablecoins Explained: Why Crypto Needs a Dollar Twin
+                  </h2>
+                  <p className="mt-3 text-[0.9375rem] leading-relaxed text-neutral-600">
+                    An overview of stablecoins as critical financial infrastructure, examining their role in liquidity, settlement
+                    efficiency, and onchain dollarization.
+                  </p>
+                </div>
+                <div className="mt-8 shrink-0 border-t border-neutral-200/90 pt-4">
                   <button
                     type="button"
                     onClick={() => setOpenPaper('stablecoins')}
@@ -858,15 +949,20 @@ export default function App() {
                 className="flex h-full min-h-0 flex-col rounded-3xl border border-neutral-200/90 bg-neutral-50/40 p-5 sm:p-6 hover:bg-white hover:shadow-xl hover:shadow-neutral-900/[0.06] transition-all"
                 whileHover={{ y: -4 }}
               >
-                <h2 className="font-serif text-[1.65rem] leading-snug text-neutral-950 tracking-tight">
-                  Dogecoin (DOGE): Shorting an Inflationary Meme Asset in Structural Decline
-                </h2>
-                <p className="mt-3 text-[0.9375rem] leading-relaxed text-neutral-600">
-                  A short thesis on DOGE analyzing supply inflation, declining network relevance, and asymmetric downside in
-                  large-cap meme assets.
-                </p>
-                <p className="mt-2 text-[0.75rem] text-neutral-400">Track: Short Position &gt; $1B</p>
-                <div className="mt-auto shrink-0 border-t border-neutral-200/90 pt-3">
+                <div className="flex min-h-0 flex-1 flex-col">
+                  <div className="mb-4 inline-flex size-11 shrink-0 items-center justify-center rounded-xl border border-neutral-200 bg-white p-1.5 shadow-[0_1px_0_rgba(0,0,0,0.04)]">
+                    <img src={iconDogecoin} alt="" className="size-7 object-contain" />
+                  </div>
+                  <h2 className="font-serif text-[1.65rem] leading-snug text-neutral-950 tracking-tight">
+                    Dogecoin (DOGE): Shorting an Inflationary Meme Asset in Structural Decline
+                  </h2>
+                  <p className="mt-3 text-[0.9375rem] leading-relaxed text-neutral-600">
+                    A short thesis on DOGE analyzing supply inflation, declining network relevance, and asymmetric downside in
+                    large-cap meme assets.
+                  </p>
+                  <p className="mt-2 text-[0.75rem] text-neutral-400">Track: Short Position &gt; $1B</p>
+                </div>
+                <div className="mt-8 shrink-0 border-t border-neutral-200/90 pt-4">
                   <button
                     type="button"
                     onClick={() => setOpenPaper('dogecoin')}
@@ -969,8 +1065,52 @@ export default function App() {
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-14 max-w-5xl mx-auto">
               <motion.div className="text-center" whileHover={{ y: -3 }}>
+                <div className="w-36 h-36 rounded-full overflow-hidden mb-6 mx-auto border border-neutral-200/90 bg-neutral-200 flex items-stretch justify-stretch shadow-sm">
+                  <TeamPlaceholderAvatar />
+                </div>
+                <h3 className="text-[1rem] font-semibold text-neutral-950">Abhishek Valuveri</h3>
+                <p className="text-[0.8125rem] text-neutral-600 tracking-wider uppercase mt-2" style={{ letterSpacing: '0.08em' }}>
+                  Chief Financial Officer
+                </p>
+                <p className="text-[0.8125rem] text-neutral-600 tracking-wider uppercase mt-1" style={{ letterSpacing: '0.08em' }}>
+                  VP of Chain
+                </p>
+                <a
+                  href="https://www.linkedin.com/in/abhishekvaluveri/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center mt-4 text-neutral-500 hover:text-black transition-colors"
+                  aria-label="LinkedIn"
+                >
+                  <LinkedInIcon className="w-4 h-4" />
+                </a>
+              </motion.div>
+
+              <motion.div className="text-center" whileHover={{ y: -3 }}>
                 <div className="w-36 h-36 rounded-full overflow-hidden mb-6 mx-auto border border-neutral-200 bg-white flex items-center justify-center">
-                  <span className="text-[1.1rem] font-medium text-neutral-500">KG</span>
+                  <img src={abdallahHeadshot} alt="Abdallah Elkamash" className="w-full h-full object-cover" />
+                </div>
+                <h3 className="text-[1rem] font-semibold text-neutral-950">Abdallah Elkamash</h3>
+                <p className="text-[0.8125rem] text-neutral-600 tracking-wider uppercase mt-2" style={{ letterSpacing: '0.08em' }}>
+                  Chief Biotech Officer
+                </p>
+                <p className="text-[0.8125rem] text-neutral-600 tracking-wider uppercase mt-1" style={{ letterSpacing: '0.08em' }}>
+                  VP of Junction
+                </p>
+                <a
+                  href="https://www.linkedin.com/in/abdallah-elkamash-6195112bb/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center mt-4 text-neutral-500 hover:text-black transition-colors"
+                  aria-label="LinkedIn"
+                >
+                  <LinkedInIcon className="w-4 h-4" />
+                </a>
+              </motion.div>
+
+              <motion.div className="text-center" whileHover={{ y: -3 }}>
+                <div className="w-36 h-36 rounded-full overflow-hidden mb-6 mx-auto border border-neutral-200/90 bg-neutral-200 flex items-stretch justify-stretch shadow-sm">
+                  <TeamPlaceholderAvatar />
                 </div>
                 <h3 className="text-[1rem] font-semibold text-neutral-950">Kellen Gong</h3>
                 <p className="text-[0.8125rem] text-neutral-600 tracking-wider uppercase mt-2" style={{ letterSpacing: '0.08em' }}>
@@ -1010,46 +1150,8 @@ export default function App() {
               </motion.div>
 
               <motion.div className="text-center" whileHover={{ y: -3 }}>
-                <div className="w-36 h-36 rounded-full overflow-hidden mb-6 mx-auto border border-neutral-200 bg-white flex items-center justify-center">
-                  <span className="text-[1.1rem] font-medium text-neutral-500">AV</span>
-                </div>
-                <h3 className="text-[1rem] font-semibold text-neutral-950">Abhishek Valuveri</h3>
-                <p className="text-[0.8125rem] text-neutral-600 tracking-wider uppercase mt-2" style={{ letterSpacing: '0.08em' }}>
-                  Chief Financial Officer
-                </p>
-                <a
-                  href="https://www.linkedin.com/in/abhishekvaluveri/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center mt-4 text-neutral-500 hover:text-black transition-colors"
-                  aria-label="LinkedIn"
-                >
-                  <LinkedInIcon className="w-4 h-4" />
-                </a>
-              </motion.div>
-
-              <motion.div className="text-center" whileHover={{ y: -3 }}>
-                <div className="w-36 h-36 rounded-full overflow-hidden mb-6 mx-auto border border-neutral-200 bg-white flex items-center justify-center">
-                  <img src={abdallahHeadshot} alt="Abdallah Elkamash" className="w-full h-full object-cover" />
-                </div>
-                <h3 className="text-[1rem] font-semibold text-neutral-950">Abdallah Elkamash</h3>
-                <p className="text-[0.8125rem] text-neutral-600 tracking-wider uppercase mt-2" style={{ letterSpacing: '0.08em' }}>
-                  Chief Biotech Officer
-                </p>
-                <a
-                  href="https://www.linkedin.com/in/abdallah-elkamash-6195112bb/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center mt-4 text-neutral-500 hover:text-black transition-colors"
-                  aria-label="LinkedIn"
-                >
-                  <LinkedInIcon className="w-4 h-4" />
-                </a>
-              </motion.div>
-
-              <motion.div className="text-center" whileHover={{ y: -3 }}>
-                <div className="w-36 h-36 rounded-full overflow-hidden mb-6 mx-auto border border-neutral-200 bg-white flex items-center justify-center">
-                  <span className="text-[1.1rem] font-medium text-neutral-500">AG</span>
+                <div className="w-36 h-36 rounded-full overflow-hidden mb-6 mx-auto border border-neutral-200/90 bg-neutral-200 flex items-stretch justify-stretch shadow-sm">
+                  <TeamPlaceholderAvatar />
                 </div>
                 <h3 className="text-[1rem] font-semibold text-neutral-950">Aarsha Guda</h3>
                 <p className="text-[0.8125rem] text-neutral-600 tracking-wider uppercase mt-2" style={{ letterSpacing: '0.08em' }}>
@@ -1067,8 +1169,8 @@ export default function App() {
               </motion.div>
 
               <motion.div className="text-center" whileHover={{ y: -3 }}>
-                <div className="w-36 h-36 rounded-full overflow-hidden mb-6 mx-auto border border-neutral-200 bg-white flex items-center justify-center">
-                  <span className="text-[1.1rem] font-medium text-neutral-500">MK</span>
+                <div className="w-36 h-36 rounded-full overflow-hidden mb-6 mx-auto border border-neutral-200/90 bg-neutral-200 flex items-stretch justify-stretch shadow-sm">
+                  <TeamPlaceholderAvatar />
                 </div>
                 <h3 className="text-[1rem] font-semibold text-neutral-950">Maaz Kheiri</h3>
                 <p className="text-[0.8125rem] text-neutral-600 tracking-wider uppercase mt-2" style={{ letterSpacing: '0.08em' }}>
@@ -1095,7 +1197,9 @@ export default function App() {
           <div className="lg:col-span-5 space-y-4 text-center lg:text-left">
             <img src={logo} alt="CJA Capital Group" className="h-10 w-auto opacity-90 mx-auto lg:mx-0" />
             <p className="font-mono-cja text-[0.65rem] uppercase tracking-[0.18em] text-neutral-500 max-w-sm leading-relaxed mx-auto lg:mx-0">
-              Educate. Research. Ship. A collective for markets and infrastructure.
+              Educate. Research. Ship.
+              <br />
+              The collective for the decentralized web.
             </p>
           </div>
           <div className="lg:col-span-3 text-center lg:text-left">
@@ -1121,7 +1225,7 @@ export default function App() {
               className="inline-flex items-center gap-2 text-sm text-neutral-700 hover:text-black border-b border-transparent hover:border-black transition-all"
             >
               <Mail className="size-4 shrink-0" strokeWidth={1.75} aria-hidden />
-              cjacapitalgroup@gmail.com
+              Gmail
             </a>
             <div>
               <a
