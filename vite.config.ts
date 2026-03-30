@@ -8,18 +8,8 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 export default defineConfig({
-  plugins: [
-    react(),
-    tailwindcss(),
-  ],
+  plugins: [react(), tailwindcss()],
   resolve: {
-    alias: [
-      { find: '@', replacement: path.resolve(__dirname, './src') },
-      {
-        // Resolve imports like "figma:asset/<name>.png" -> "src/assets/<name>.png"
-        find: /^figma:asset\/(.*)$/,
-        replacement: path.resolve(__dirname, 'src', 'assets') + '/$1',
-      },
-    ],
+    alias: [{ find: '@', replacement: path.resolve(__dirname, './src') }],
   },
 })
