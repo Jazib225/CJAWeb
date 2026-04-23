@@ -16,8 +16,8 @@ export const iconBase = new URL('../assets/Base.png', import.meta.url).href
 export const iconDogecoin = 'https://assets.coingecko.com/coins/images/5/small/dogecoin.png'
 export const iconSyrup =
   'https://coin-images.coingecko.com/coins/images/51232/small/_syrup_token_logo.png?1747292046'
-export const iconAave = 'https://assets.coingecko.com/coins/images/12645/small/AAVE.png'
-export const iconMorpho = 'https://assets.coingecko.com/coins/images/33579/small/morpho.png'
+export const iconAave = 'https://assets.coingecko.com/coins/images/12645/large/AAVE.png'
+export const iconMorpho = 'https://assets.coingecko.com/coins/images/29837/standard/Morpho-token-icon.png?1726771230'
 
 export type Badge = { letter: string; label: string; icon?: string }
 export type ProjectLink = { label: string; href: string }
@@ -62,6 +62,8 @@ export const linkedInPostEmbedSrcs: readonly LinkedInPostEmbedRef[] = [
     height: 1180,
   },
   { src: 'https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7435084023611187201', height: 1194 },
+  { src: 'https://www.linkedin.com/embed/feed/update/urn:li:activity:7433999311333400576' },
+  { src: 'https://www.linkedin.com/embed/feed/update/urn:li:activity:7404356067171934210' },
   { src: 'https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7404305675759120384', height: 963 },
 ]
 
@@ -217,6 +219,7 @@ export const NAV_ROUTES = [
   { label: 'Home', path: '/' },
   { label: 'Projects', path: '/projects' },
   { label: 'Research', path: '/research' },
+  { label: 'Trading', path: '/trading' },
   { label: 'Blog', path: '/blog' },
   { label: 'Team', path: '/team' },
 ] as const

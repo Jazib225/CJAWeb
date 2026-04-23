@@ -8,6 +8,7 @@ import { SiteLayout } from './SiteLayout'
 import { HomePage } from './pages/HomePage'
 import { ProjectsPage } from './pages/ProjectsPage'
 import { ResearchPage } from './pages/ResearchPage'
+import { TradingPage } from './pages/TradingPage'
 import { BlogListPage } from './pages/BlogListPage'
 import { TeamPage } from './pages/TeamPage'
 
@@ -30,6 +31,7 @@ export default function App() {
             <Route index element={<HomePage />} />
             <Route path="projects" element={<ProjectsPage />} />
             <Route path="research" element={<ResearchPage />} />
+            <Route path="trading" element={<TradingPage />} />
             <Route path="blog" element={<BlogListPage />} />
             <Route path="blog/:slug" element={<Navigate to="/blog" replace />} />
             <Route path="team" element={<TeamPage />} />
