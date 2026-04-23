@@ -1,5 +1,5 @@
 import { motion } from 'motion/react'
-import { iconAave, iconDogecoin, iconMorpho, iconSyrup, iconUSDC } from '../siteData'
+import { iconAave, iconCircle, iconDogecoin, iconMorpho, iconSyrup, iconUSDC } from '../siteData'
 import { usePaperViewer } from '../paperViewerContext'
 import { Eyebrow, pageFadeIn } from '../uiPrimitives'
 
@@ -49,6 +49,49 @@ export function ResearchPage() {
                 Read
                 <span className="inline-block transition-transform group-hover/read:translate-x-1">→</span>
               </button>
+            </div>
+          </motion.article>
+
+          <motion.article
+            className="md:col-span-2 flex h-full min-h-0 flex-col rounded-3xl border border-neutral-200/90 bg-neutral-50/40 p-5 sm:p-6 lg:p-8 hover:bg-white hover:shadow-xl hover:shadow-neutral-900/[0.06] transition-all"
+            whileHover={{ y: -4 }}
+          >
+            <div className="flex min-h-0 flex-1 flex-col">
+              <p className="font-mono-cja text-[0.65rem] uppercase tracking-[0.16em] text-neutral-500">
+                Investment Thesis · April 2026
+              </p>
+              <div className="mt-3 mb-1 inline-flex size-11 shrink-0 items-center justify-center rounded-xl border border-neutral-200 bg-white p-1.5 shadow-[0_1px_0_rgba(0,0,0,0.04)]">
+                <img src={iconCircle} alt="" className="size-7 object-contain" />
+              </div>
+              <h2 className="mt-2 font-serif text-[clamp(1.5rem,4vw,2rem)] leading-snug text-neutral-950 tracking-tight">
+                Circle (CRCL): The Reserve Bank of the Internet
+              </h2>
+              <p className="mt-4 text-[0.9375rem] leading-relaxed text-neutral-600 max-w-4xl">
+                Circle has quietly become the neutral infrastructure layer for dollar-denominated payments, settlement,
+                and programmable money at global scale. This thesis argues CRCL is the highest-conviction fintech IPO
+                of the cycle — already embedded across Visa, Mastercard, Coinbase, and sovereign payment networks, with
+                a regulatory moat that competitors cannot replicate.
+              </p>
+              <div className="mt-6 rounded-2xl overflow-hidden border border-neutral-200/80 bg-neutral-100" style={{ height: '360px' }}>
+                <iframe
+                  src="/crcl/"
+                  title="Circle CRCL Investment Thesis"
+                  className="w-full border-0 pointer-events-none select-none"
+                  style={{ height: '360px' }}
+                  scrolling="no"
+                />
+              </div>
+            </div>
+            <div className="mt-6 shrink-0 border-t border-neutral-200/90 pt-4">
+              <a
+                href="/crcl/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border border-neutral-300 bg-white px-5 py-2 text-sm font-semibold text-neutral-950 hover:border-neutral-950 hover:bg-neutral-950 hover:text-white transition-colors group/read"
+              >
+                View
+                <span className="inline-block transition-transform group-hover/read:translate-x-1">→</span>
+              </a>
             </div>
           </motion.article>
 
