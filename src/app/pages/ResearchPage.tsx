@@ -53,7 +53,7 @@ export function ResearchPage() {
           </motion.article>
 
           <motion.article
-            className="md:col-span-2 flex h-full min-h-0 flex-col rounded-3xl border border-neutral-200/90 bg-neutral-50/40 p-5 sm:p-6 lg:p-8 hover:bg-white hover:shadow-xl hover:shadow-neutral-900/[0.06] transition-all"
+            className="flex h-full min-h-0 flex-col rounded-3xl border border-neutral-200/90 bg-neutral-50/40 p-5 sm:p-6 hover:bg-white hover:shadow-xl hover:shadow-neutral-900/[0.06] transition-all"
             whileHover={{ y: -4 }}
           >
             <div className="flex min-h-0 flex-1 flex-col">
@@ -63,21 +63,21 @@ export function ResearchPage() {
               <div className="mt-3 mb-1 inline-flex size-11 shrink-0 items-center justify-center rounded-xl border border-neutral-200 bg-white p-1.5 shadow-[0_1px_0_rgba(0,0,0,0.04)]">
                 <img src={iconCircle} alt="" className="size-7 object-contain" />
               </div>
-              <h2 className="mt-2 font-serif text-[clamp(1.5rem,4vw,2rem)] leading-snug text-neutral-950 tracking-tight">
+              <h2 className="mt-2 font-serif text-[1.65rem] leading-snug text-neutral-950 tracking-tight">
                 Circle (CRCL): The Reserve Bank of the Internet
               </h2>
-              <p className="mt-4 text-[0.9375rem] leading-relaxed text-neutral-600 max-w-4xl">
+              <p className="mt-3 text-[0.9375rem] leading-relaxed text-neutral-600">
                 Circle has quietly become the neutral infrastructure layer for dollar-denominated payments, settlement,
                 and programmable money at global scale. This thesis argues CRCL is the highest-conviction fintech IPO
                 of the cycle — already embedded across Visa, Mastercard, Coinbase, and sovereign payment networks, with
                 a regulatory moat that competitors cannot replicate.
               </p>
-              <div className="mt-6 rounded-2xl overflow-hidden border border-neutral-200/80 bg-neutral-100" style={{ height: '360px' }}>
+              <div className="mt-6 rounded-2xl overflow-hidden border border-neutral-200/80 bg-neutral-100" style={{ height: '260px' }}>
                 <iframe
                   src="/crcl/"
                   title="Circle CRCL Investment Thesis"
                   className="w-full border-0 pointer-events-none select-none"
-                  style={{ height: '360px' }}
+                  style={{ height: '260px' }}
                   scrolling="no"
                 />
               </div>
@@ -96,7 +96,7 @@ export function ResearchPage() {
           </motion.article>
 
           <motion.article
-            className="md:col-span-2 flex h-full min-h-0 flex-col rounded-3xl border border-neutral-200/90 bg-neutral-50/40 p-5 sm:p-6 lg:p-8 hover:bg-white hover:shadow-xl hover:shadow-neutral-900/[0.06] transition-all"
+            className="flex h-full min-h-0 flex-col rounded-3xl border border-neutral-200/90 bg-neutral-50/40 p-5 sm:p-6 hover:bg-white hover:shadow-xl hover:shadow-neutral-900/[0.06] transition-all"
             whileHover={{ y: -4 }}
           >
             <div className="flex min-h-0 flex-1 flex-col">
@@ -106,13 +106,13 @@ export function ResearchPage() {
               <div className="mt-3 mb-1 inline-flex size-11 shrink-0 items-center justify-center rounded-xl border border-neutral-200 bg-white p-1.5 shadow-[0_1px_0_rgba(0,0,0,0.04)]">
                 <img src={iconAave} alt="" className="size-7 object-contain" />
               </div>
-              <h2 className="mt-2 font-serif text-[clamp(1.5rem,4vw,2rem)] leading-snug text-neutral-950 tracking-tight">
+              <h2 className="mt-2 font-serif text-[1.65rem] leading-snug text-neutral-950 tracking-tight">
                 AAVE vs. MORPHO: Long / Short Pair Trade Analysis
               </h2>
               <p className="mt-2 text-[0.75rem] text-neutral-400">
                 Long AAVE / Short MORPHO · Christopher Herzog · Purdue University
               </p>
-              <p className="mt-4 text-[0.9375rem] leading-relaxed text-neutral-600 max-w-4xl">
+              <p className="mt-3 text-[0.9375rem] leading-relaxed text-neutral-600">
                 At approximately equal $1.6B FDVs, AAVE generates $74.8M in annualized protocol revenue with an active
                 $50M/year buyback program — while MORPHO captures zero protocol revenue and faces 219M founder tokens
                 beginning to vest in May 2026. This delta-neutral memo isolates three structural edges: an infinite
