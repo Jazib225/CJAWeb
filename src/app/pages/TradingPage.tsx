@@ -51,22 +51,22 @@ export function TradingPage() {
           className="rounded-3xl border border-neutral-200/90 bg-neutral-50/40 p-5 sm:p-6 lg:p-8 hover:bg-white hover:shadow-xl hover:shadow-neutral-900/[0.06] transition-all"
           whileHover={{ y: -4 }}
         >
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 lg:gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 lg:gap-4 items-start">
             <div className="rounded-2xl overflow-hidden border border-neutral-200/80">
               <img
                 src="/open_position.png"
                 alt="SOL perpetual long on Hyperliquid"
-                className="w-full h-full object-cover block"
+                className="w-full h-auto block"
               />
             </div>
             <div className="rounded-2xl overflow-hidden border border-neutral-200/80">
               <img
                 src="/pnl2.png"
                 alt="LUNA/SOL 348% return trade"
-                className="w-full h-full object-cover block"
+                className="w-full h-auto block"
               />
             </div>
-            <div className="rounded-2xl overflow-hidden border border-neutral-200/80 flex items-center justify-center bg-neutral-900">
+            <div className="rounded-2xl overflow-hidden border border-neutral-200/80 bg-neutral-900 flex items-center justify-center">
               <img
                 src="/pnl1.png"
                 alt="Realized PnL readout"
