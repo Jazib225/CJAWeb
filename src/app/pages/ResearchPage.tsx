@@ -1,5 +1,5 @@
 import { motion } from 'motion/react'
-import { iconDogecoin, iconSyrup, iconUSDC } from '../siteData'
+import { iconAave, iconDogecoin, iconMorpho, iconSyrup, iconUSDC } from '../siteData'
 import { usePaperViewer } from '../paperViewerContext'
 import { Eyebrow, pageFadeIn } from '../uiPrimitives'
 
@@ -44,6 +44,102 @@ export function ResearchPage() {
               <button
                 type="button"
                 onClick={() => setOpenPaper('maple')}
+                className="inline-flex items-center gap-2 rounded-full border border-neutral-300 bg-white px-5 py-2 text-sm font-semibold text-neutral-950 hover:border-neutral-950 hover:bg-neutral-950 hover:text-white transition-colors group/read"
+              >
+                Read
+                <span className="inline-block transition-transform group-hover/read:translate-x-1">→</span>
+              </button>
+            </div>
+          </motion.article>
+
+          <motion.article
+            className="md:col-span-2 flex h-full min-h-0 flex-col rounded-3xl border border-neutral-200/90 bg-neutral-50/40 p-5 sm:p-6 lg:p-8 hover:bg-white hover:shadow-xl hover:shadow-neutral-900/[0.06] transition-all"
+            whileHover={{ y: -4 }}
+          >
+            <div className="flex min-h-0 flex-1 flex-col">
+              <p className="font-mono-cja text-[0.65rem] uppercase tracking-[0.16em] text-neutral-500">
+                Delta-Neutral Investment Memo · March 2026
+              </p>
+              <div className="mt-3 mb-1 inline-flex size-11 shrink-0 items-center justify-center rounded-xl border border-neutral-200 bg-white p-1.5 shadow-[0_1px_0_rgba(0,0,0,0.04)]">
+                <img src={iconAave} alt="" className="size-7 object-contain" />
+              </div>
+              <h2 className="mt-2 font-serif text-[clamp(1.5rem,4vw,2rem)] leading-snug text-neutral-950 tracking-tight">
+                AAVE vs. MORPHO: Long / Short Pair Trade Analysis
+              </h2>
+              <p className="mt-2 text-[0.75rem] text-neutral-400">
+                Long AAVE / Short MORPHO · Christopher Herzog · Purdue University
+              </p>
+              <p className="mt-4 text-[0.9375rem] leading-relaxed text-neutral-600 max-w-4xl">
+                At approximately equal $1.6B FDVs, AAVE generates $74.8M in annualized protocol revenue with an active
+                $50M/year buyback program — while MORPHO captures zero protocol revenue and faces 219M founder tokens
+                beginning to vest in May 2026. This delta-neutral memo isolates three structural edges: an infinite
+                revenue multiple gap, extreme depositor concentration in Morpho's curator system, and opposing supply
+                dynamics where AAVE's effective float is shrinking while MORPHO's will nearly double by 2028.
+              </p>
+            </div>
+            <div className="mt-8 shrink-0 border-t border-neutral-200/90 pt-4">
+              <button
+                type="button"
+                onClick={() => setOpenPaper('aave-morpho-herzog')}
+                className="inline-flex items-center gap-2 rounded-full border border-neutral-300 bg-white px-5 py-2 text-sm font-semibold text-neutral-950 hover:border-neutral-950 hover:bg-neutral-950 hover:text-white transition-colors group/read"
+              >
+                Read
+                <span className="inline-block transition-transform group-hover/read:translate-x-1">→</span>
+              </button>
+            </div>
+          </motion.article>
+
+          <motion.article
+            className="flex h-full min-h-0 flex-col rounded-3xl border border-neutral-200/90 bg-neutral-50/40 p-5 sm:p-6 hover:bg-white hover:shadow-xl hover:shadow-neutral-900/[0.06] transition-all"
+            whileHover={{ y: -4 }}
+          >
+            <div className="flex min-h-0 flex-1 flex-col">
+              <div className="mb-4 inline-flex size-11 shrink-0 items-center justify-center rounded-xl border border-neutral-200 bg-white p-1.5 shadow-[0_1px_0_rgba(0,0,0,0.04)]">
+                <img src={iconAave} alt="" className="size-7 object-contain" />
+              </div>
+              <h2 className="font-serif text-[1.65rem] leading-snug text-neutral-950 tracking-tight">
+                AAVE &amp; MORPHO: A Sum-of-the-Parts Inquiry
+              </h2>
+              <p className="mt-2 text-[0.75rem] text-neutral-400">Long AAVE / Short MORPHO · Adi Chaudhary</p>
+              <p className="mt-3 text-[0.9375rem] leading-relaxed text-neutral-600">
+                A SOTP valuation of two lending tokens at equal $1.7B FDV, decomposing Aave's four independent revenue
+                streams and correcting for curator fee leakage that overstates Morpho's gross-fee optionality.
+              </p>
+            </div>
+            <div className="mt-8 shrink-0 border-t border-neutral-200/90 pt-4">
+              <button
+                type="button"
+                onClick={() => setOpenPaper('aave-morpho-adi')}
+                className="inline-flex items-center gap-2 rounded-full border border-neutral-300 bg-white px-5 py-2 text-sm font-semibold text-neutral-950 hover:border-neutral-950 hover:bg-neutral-950 hover:text-white transition-colors group/read"
+              >
+                Read
+                <span className="inline-block transition-transform group-hover/read:translate-x-1">→</span>
+              </button>
+            </div>
+          </motion.article>
+
+          <motion.article
+            className="flex h-full min-h-0 flex-col rounded-3xl border border-neutral-200/90 bg-neutral-50/40 p-5 sm:p-6 hover:bg-white hover:shadow-xl hover:shadow-neutral-900/[0.06] transition-all"
+            whileHover={{ y: -4 }}
+          >
+            <div className="flex min-h-0 flex-1 flex-col">
+              <div className="mb-4 inline-flex size-11 shrink-0 items-center justify-center rounded-xl border border-neutral-200 bg-white p-1.5 shadow-[0_1px_0_rgba(0,0,0,0.04)]">
+                <img src={iconMorpho} alt="" className="size-7 object-contain" />
+              </div>
+              <h2 className="font-serif text-[1.65rem] leading-snug text-neutral-950 tracking-tight">
+                MORPHO vs. AAVE: Long / Short Pair Trade Analysis
+              </h2>
+              <p className="mt-2 text-[0.75rem] text-neutral-400">Long MORPHO / Short AAVE · Jazib Qureshi</p>
+              <p className="mt-3 text-[0.9375rem] leading-relaxed text-neutral-600">
+                The contrarian view: Aave's BUSL anti-fork licensing, governance exodus, and buyback cut signal
+                structural impairment that revenue alone cannot offset — while Morpho's V2 fixed-rate catalyst and
+                Apollo institutional demand create asymmetric upside.
+              </p>
+            </div>
+            <div className="mt-8 shrink-0 border-t border-neutral-200/90 pt-4">
+              <button
+                type="button"
+                onClick={() => setOpenPaper('morpho-aave-jazib')}
                 className="inline-flex items-center gap-2 rounded-full border border-neutral-300 bg-white px-5 py-2 text-sm font-semibold text-neutral-950 hover:border-neutral-950 hover:bg-neutral-950 hover:text-white transition-colors group/read"
               >
                 Read

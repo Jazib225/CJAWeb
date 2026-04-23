@@ -16,6 +16,8 @@ export const iconBase = new URL('../assets/Base.png', import.meta.url).href
 export const iconDogecoin = 'https://assets.coingecko.com/coins/images/5/small/dogecoin.png'
 export const iconSyrup =
   'https://coin-images.coingecko.com/coins/images/51232/small/_syrup_token_logo.png?1747292046'
+export const iconAave = 'https://assets.coingecko.com/coins/images/12645/small/AAVE.png'
+export const iconMorpho = 'https://assets.coingecko.com/coins/images/33579/small/morpho.png'
 
 export type Badge = { letter: string; label: string; icon?: string }
 export type ProjectLink = { label: string; href: string }
@@ -219,7 +221,13 @@ export const NAV_ROUTES = [
   { label: 'Team', path: '/team' },
 ] as const
 
-export type ResearchPaperId = 'maple' | 'stablecoins' | 'dogecoin'
+export type ResearchPaperId =
+  | 'maple'
+  | 'stablecoins'
+  | 'dogecoin'
+  | 'aave-morpho-herzog'
+  | 'aave-morpho-adi'
+  | 'morpho-aave-jazib'
 
 export const researchPdfs: Record<ResearchPaperId, { title: string; href: string }> = {
   stablecoins: {
@@ -233,6 +241,18 @@ export const researchPdfs: Record<ResearchPaperId, { title: string; href: string
   maple: {
     title: 'Maple Finance Investment Thesis',
     href: '/pdfs/Maple_Investment_Thesis.pdf',
+  },
+  'aave-morpho-herzog': {
+    title: 'AAVE vs. MORPHO: Long / Short Pair Trade Analysis',
+    href: '/pdfs/aave-vs-morpho-herzog.pdf',
+  },
+  'aave-morpho-adi': {
+    title: 'AAVE & MORPHO: A Sum-of-the-Parts Inquiry Into Two Lending Tokens at $1.7B FDV',
+    href: '/pdfs/aave-morpho-adi.pdf',
+  },
+  'morpho-aave-jazib': {
+    title: 'MORPHO vs. AAVE: Long / Short Pair Trade Analysis',
+    href: '/pdfs/morpho-vs-aave-jazib.pdf',
   },
 }
 

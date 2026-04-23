@@ -214,11 +214,12 @@ export function HomePage() {
                 backgroundSize: '48px 48px',
               }}
             />
-            <div className="relative grid grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-6 lg:gap-x-4 lg:gap-y-5 text-center">
+            <div className="relative grid grid-cols-2 lg:grid-cols-5 gap-x-4 gap-y-6 lg:gap-x-4 lg:gap-y-5 text-center">
               {[
+                { value: '$100,000+', label: 'Trading profits' },
                 { value: `$${totalHackathonWinnings.toLocaleString()}`, label: 'Total hackathon winnings' },
                 { value: '5+', label: 'Flagship builds' },
-                { value: '3', label: 'Research papers' },
+                { value: '7', label: 'Research papers' },
                 { value: '15+', label: 'Members' },
               ].map((row) => (
                 <div key={row.label}>
